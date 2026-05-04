@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gun Motor - Bengkel Mobil Terpercaya</title>
+    <style>
+        /* CSS Reset & Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Navigasi */
+        header {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e53935; /* Aksen Merah */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #e53935;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1613214149922-f1809c99b414?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background-color: #e53935;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #c62828;
+        }
+
+        /* Layanan Section */
+        .layanan {
+            padding: 80px 5%;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .layanan h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #1a1a1a;
+        }
+
+        .grid-layanan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .kartu-layanan {
+            background-color: #f9f9f9;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .kartu-layanan:hover {
+            transform: translateY(-10px);
+            border-bottom: 4px solid #e53935;
+        }
+
+        .kartu-layanan h3 {
+            margin: 15px 0;
+            color: #e53935;
+        }
+
+        /* Footer / Kontak */
+        footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+        .kontak-info {
+            margin-bottom: 20px;
+        }
+
+        .kontak-info h3 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none; /* Sembunyikan menu di mobile untuk contoh sederhana */
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigasi -->
+    <header>
+        <div class="logo">Gun Motor</div>
+        <nav>
+            <ul>
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#layanan">Layanan</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="hero">
+        <h1>Performa Maksimal, Berkendara Aman</h1>
+        <p>Solusi perawatan dan perbaikan mobil terbaik. Ditangani oleh mekanik profesional dengan peralatan modern dan presisi.</p>
+        <a href="#kontak" class="btn">Hubungi Kami Sekarang</a>
+    </section>
+
+    <!-- Layanan Section -->
+    <section id="layanan" class="layanan">
+        <h2>Layanan Andalan Kami</h2>
+        <div class="grid-layanan">
+            <div class="kartu-layanan">
+                <h3>Servis Berkala</h3>
+                <p>Perawatan rutin untuk menjaga kondisi mesin tetap prima dan mencegah kerusakan parah di kemudian hari.</p>
+            </div>
+            <div class="kartu-layanan">
+                <h3>Ganti Oli & Filter</h3>
+                <p>Penggantian pelumas mesin, transmisi, dan gardan menggunakan produk orisinal berkualitas tinggi.</p>
+            </div>
+            <div class="kartu-layanan">
+                <h3>Spooring & Balancing</h3>
+                <p>Penyetelan kaki-kaki mobil agar kemudi stabil, aman, dan meminimalkan keausan ban yang tidak merata.</p>
+            </div>
+            <div class="kartu-layanan">
+                <h3>Overhaul / Turun Mesin</h3>
+                <p>Perbaikan berat pada komponen internal mesin untuk mengembalikan tenaga dan kompresi yang hilang.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Kontak -->
+    <footer id="kontak">
+        <div class="kontak-info">
+            <h3>Kunjungi Bengkel Kami</h3>
+            <p>📍 Jl. Raya Madiun - Ponorogo, Jawa Timur</p>
+            <p>📞 WhatsApp: +62 812-3456-7890</p>
+            <p>🕒 Buka: Senin - Sabtu (08.00 - 17.00 WIB)</p>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Gun Motor. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Script Sederhana -->
+    <script>
+        // Efek navbar mengecil saat di-scroll
+        window.addEventListener('scroll', function() {
+            let header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.padding = '10px 5%';
+            } else {
+                header.style.padding = '1rem 5%';
+            }
+        });
+    </script>
+
+</body>
+</html>
