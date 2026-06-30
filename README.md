@@ -1,1 +1,1 @@
-# FarisDwikiG.github.io
+# farisdwiki.github.io
