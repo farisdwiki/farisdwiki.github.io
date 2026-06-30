@@ -1,247 +1,1039 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gun Motor - Bengkel Mobil Terpercaya</title>
+    <title>Gun Motor - Bengkel Mobil Profesional di Madiun</title>
+    <meta name="description" content="Gun Motor melayani servis, tune up, perbaikan mesin, kaki-kaki, AC mobil, ganti oli dengan mekanik berpengalaman di Madiun. Harga transparan & bergaransi.">
+    <meta name="keywords" content="Bengkel Mobil Madiun, Servis Mobil, Tune Up, Ganti Oli, Bengkel AC Mobil, Bengkel Kaki-kaki Mobil, Gun Motor, Bengkel Profesional Madiun">
+    <meta name="author" content="Gun Motor">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Gun Motor - Bengkel Mobil Profesional di Madiun">
+    <meta property="og:description" content="Layanan perawatan kendaraan terbaik dengan mekanik ahli, harga kompetitif, dan hasil pengerjaan bergaransi di Madiun.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1597811222874-97217596ff25?auto=format&fit=crop&q=80&w=1200">
+    <meta property="og:url" content="https://www.gunmotor.com">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#1E3A8A', // Modern Navy
+                            navyHover: '#1E40AF',
+                            dark: '#111827',
+                            gray: '#374151',
+                            light: '#F3F4F6'
+                        }
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* CSS Reset & Dasar */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            scroll-behavior: smooth;
+        /* Custom Styles & Utilities */
+        body { font-family: 'Poppins', sans-serif; }
+        
+        /* Glassmorphism Classes */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-dark {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left { transform: translateX(-50px); }
+        .reveal-right { transform: translateX(50px); }
+        .reveal-left.active, .reveal-right.active { transform: translateX(0); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #1E3A8A; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1E40AF; }
+
+        /* Loader */
+        #loader {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #111827; display: flex;
+            justify-content: center; align-items: center;
+            transition: opacity 0.5s ease-out;
         }
         
-        body {
-            background-color: #f4f4f4;
-            color: #333;
+        /* Lightbox */
+        #lightbox {
+            display: none; position: fixed; inset: 0; z-index: 5000;
+            background: rgba(0,0,0,0.9); justify-content: center; align-items: center;
         }
-
-        /* Navigasi */
-        header {
-            background-color: #1a1a1a;
-            color: #fff;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #e53935; /* Aksen Merah */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #e53935;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1613214149922-f1809c99b414?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
-            margin-top: 60px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            max-width: 600px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            background-color: #e53935;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #c62828;
-        }
-
-        /* Layanan Section */
-        .layanan {
-            padding: 80px 5%;
-            background-color: #fff;
-            text-align: center;
-        }
-
-        .layanan h2 {
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            color: #1a1a1a;
-        }
-
-        .grid-layanan {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .kartu-layanan {
-            background-color: #f9f9f9;
-            padding: 30px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .kartu-layanan:hover {
-            transform: translateY(-10px);
-            border-bottom: 4px solid #e53935;
-        }
-
-        .kartu-layanan h3 {
-            margin: 15px 0;
-            color: #e53935;
-        }
-
-        /* Footer / Kontak */
-        footer {
-            background-color: #1a1a1a;
-            color: #ccc;
-            padding: 40px 5%;
-            text-align: center;
-        }
-
-        .kontak-info {
-            margin-bottom: 20px;
-        }
-
-        .kontak-info h3 {
-            color: #fff;
-            margin-bottom: 15px;
-        }
-
-        .copyright {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            border-top: 1px solid #333;
-            padding-top: 20px;
-        }
-
-        /* Responsif */
-        @media (max-width: 768px) {
-            nav ul {
-                display: none; /* Sembunyikan menu di mobile untuk contoh sederhana */
-            }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-        }
+        #lightbox.active { display: flex; }
+        #lightbox img { max-width: 90%; max-height: 90vh; border-radius: 8px; }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 antialiased overflow-x-hidden selection:bg-brand-navy selection:text-white">
 
-    <!-- Header & Navigasi -->
-    <header>
-        <div class="logo">Gun Motor</div>
-        <nav>
-            <ul>
-                <li><a href="#beranda">Beranda</a></li>
-                <li><a href="#layanan">Layanan</a></li>
-                <li><a href="#kontak">Kontak</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="flex flex-col items-center">
+            <i class="fa-solid fa-gear text-brand-navy text-6xl animate-spin-slow mb-4"></i>
+            <h2 class="text-white text-2xl font-bold tracking-wider uppercase">Gun Motor</h2>
+            <p class="text-gray-400 text-sm mt-2">Memuat pengalaman terbaik...</p>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 glass-dark text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-full bg-brand-navy flex items-center justify-center text-white font-bold text-xl group-hover:rotate-180 transition-transform duration-500">
+                        <i class="fa-solid fa-wrench"></i>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight">GUN <span class="text-brand-navy">MOTOR</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#tentang" class="hover:text-brand-navy transition-colors text-sm font-medium">Tentang</a>
+                    <a href="#layanan" class="hover:text-brand-navy transition-colors text-sm font-medium">Layanan</a>
+                    <a href="#paket" class="hover:text-brand-navy transition-colors text-sm font-medium">Paket</a>
+                    <a href="#galeri" class="hover:text-brand-navy transition-colors text-sm font-medium">Galeri</a>
+                    <a href="#lokasi" class="hover:text-brand-navy transition-colors text-sm font-medium">Lokasi</a>
+                    <a href="#kontak" class="bg-brand-navy hover:bg-brand-navyHover px-5 py-2 rounded-full font-semibold transition-all transform hover:scale-105 shadow-md shadow-brand-navy/30">Hubungi Kami</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark/95 backdrop-blur-md absolute top-full left-0 w-full border-t border-gray-700 shadow-xl">
+            <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col text-center">
+                <a href="#tentang" class="mobile-link block px-3 py-3 rounded-md text-base font-medium hover:text-brand-navy hover:bg-white/5 transition-colors">Tentang</a>
+                <a href="#layanan" class="mobile-link block px-3 py-3 rounded-md text-base font-medium hover:text-brand-navy hover:bg-white/5 transition-colors">Layanan</a>
+                <a href="#paket" class="mobile-link block px-3 py-3 rounded-md text-base font-medium hover:text-brand-navy hover:bg-white/5 transition-colors">Paket</a>
+                <a href="#galeri" class="mobile-link block px-3 py-3 rounded-md text-base font-medium hover:text-brand-navy hover:bg-white/5 transition-colors">Galeri</a>
+                <a href="#lokasi" class="mobile-link block px-3 py-3 rounded-md text-base font-medium hover:text-brand-navy hover:bg-white/5 transition-colors">Lokasi</a>
+                <a href="#kontak" class="mobile-link block mt-4 bg-brand-navy text-white px-5 py-3 rounded-full font-bold text-center mx-4">Hubungi Kami</a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
-    <section id="beranda" class="hero">
-        <h1>Performa Maksimal, Berkendara Aman</h1>
-        <p>Solusi perawatan dan perbaikan mobil terbaik. Ditangani oleh mekanik profesional dengan peralatan modern dan presisi.</p>
-        <a href="#kontak" class="btn">Hubungi Kami Sekarang</a>
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=1920" alt="Bengkel Mobil Gun Motor" class="w-full h-full object-cover object-center" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-dark/90 via-brand-dark/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-16">
+            <div class="max-w-3xl reveal reveal-left">
+                <div class="inline-block px-4 py-1.5 rounded-full glass border-brand-navy/30 mb-6">
+                    <span class="text-brand-navy font-semibold text-sm tracking-wide uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-star"></i> Bengkel Terpercaya di Madiun
+                    </span>
+                </div>
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+                    Solusi Perawatan <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-navy to-blue-400">Mobil Terbaik</span> Anda.
+                </h1>
+                <p class="text-gray-300 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl">
+                    Layanan servis, tune up, perbaikan mesin, kaki-kaki, AC mobil, ganti oli, dan berbagai kebutuhan perawatan kendaraan Anda dengan mekanik berpengalaman.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-brand-navy hover:bg-brand-navyHover text-white px-8 py-4 rounded-full font-bold text-center transition-all transform hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-navy/40 flex items-center justify-center gap-3 text-lg">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i> Hubungi via WhatsApp
+                    </a>
+                    <a href="#lokasi" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-full font-bold text-center transition-all flex items-center justify-center gap-3 text-lg">
+                        <i class="fa-solid fa-location-dot"></i> Lihat Lokasi
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+            <a href="#tentang" class="text-white/70 hover:text-brand-navy transition-colors">
+                <i class="fa-solid fa-chevron-down text-3xl"></i>
+            </a>
+        </div>
     </section>
 
-    <!-- Layanan Section -->
-    <section id="layanan" class="layanan">
-        <h2>Layanan Andalan Kami</h2>
-        <div class="grid-layanan">
-            <div class="kartu-layanan">
-                <h3>Servis Berkala</h3>
-                <p>Perawatan rutin untuk menjaga kondisi mesin tetap prima dan mencegah kerusakan parah di kemudian hari.</p>
-            </div>
-            <div class="kartu-layanan">
-                <h3>Ganti Oli & Filter</h3>
-                <p>Penggantian pelumas mesin, transmisi, dan gardan menggunakan produk orisinal berkualitas tinggi.</p>
-            </div>
-            <div class="kartu-layanan">
-                <h3>Spooring & Balancing</h3>
-                <p>Penyetelan kaki-kaki mobil agar kemudi stabil, aman, dan meminimalkan keausan ban yang tidak merata.</p>
-            </div>
-            <div class="kartu-layanan">
-                <h3>Overhaul / Turun Mesin</h3>
-                <p>Perbaikan berat pada komponen internal mesin untuk mengembalikan tenaga dan kompresi yang hilang.</p>
+    <!-- Tentang & Statistik -->
+    <section id="tentang" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Image -->
+                <div class="relative reveal reveal-left">
+                    <div class="absolute -inset-4 bg-brand-navy/10 rounded-3xl transform rotate-3"></div>
+                    <img src="https://images.unsplash.com/photo-1504222490345-c075b6008014?auto=format&fit=crop&q=80&w=800" alt="Mekanik Gun Motor" class="relative rounded-2xl shadow-2xl object-cover h-[500px] w-full" loading="lazy">
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl shadow-xl border border-gray-100 hidden md:block">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-full bg-brand-navy/10 flex items-center justify-center text-brand-navy text-2xl">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-gray-800">10+ Tahun</h4>
+                                <p class="text-gray-500 text-sm font-medium">Pengalaman Servis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="reveal reveal-right">
+                    <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Tentang Gun Motor</h3>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">Dedikasi Tinggi untuk Performa Kendaraan Anda</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        Gun Motor merupakan bengkel mobil profesional yang berlokasi di Nglames, Madiun. Kami melayani berbagai jenis perawatan dan perbaikan kendaraan dengan mengutamakan kualitas pengerjaan, kejujuran, dan pelayanan ramah.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                        Didukung oleh mekanik berpengalaman dan peralatan modern, kami memastikan setiap masalah pada mobil Anda tertangani dengan cepat, tepat, dan dengan harga yang sangat kompetitif. Kepuasan dan keselamatan berkendara Anda adalah prioritas utama kami.
+                    </p>
+                    
+                    <!-- Checkmarks -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-sm"><i class="fa-solid fa-check"></i></div>
+                            <span class="font-medium text-gray-700">Pengerjaan Teliti</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-sm"><i class="fa-solid fa-check"></i></div>
+                            <span class="font-medium text-gray-700">Teknisi Tersertifikasi</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-sm"><i class="fa-solid fa-check"></i></div>
+                            <span class="font-medium text-gray-700">Sparepart Original</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-sm"><i class="fa-solid fa-check"></i></div>
+                            <span class="font-medium text-gray-700">Ruang Tunggu Nyaman</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer / Kontak -->
-    <footer id="kontak">
-        <div class="kontak-info">
-            <h3>Kunjungi Bengkel Kami</h3>
-            <p>📍 Jl. Raya Madiun - Ponorogo, Jawa Timur</p>
-            <p>📞 WhatsApp: +62 812-3456-7890</p>
-            <p>🕒 Buka: Senin - Sabtu (08.00 - 17.00 WIB)</p>
+    <!-- Keunggulan Bengkel -->
+    <section class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Mengapa Memilih Kami</h3>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Keunggulan Gun Motor</h2>
+                <p class="text-gray-600">Kami memberikan standar layanan tertinggi untuk memastikan kendaraan Anda selalu dalam kondisi prima saat melaju di jalan raya.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 reveal group">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-brand-navy text-3xl mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Mekanik Berpengalaman</h4>
+                    <p class="text-gray-600">Ditangani langsung oleh teknisi ahli yang telah berpengalaman menangani berbagai merk dan jenis kerusakan mobil.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 reveal group" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-brand-navy text-3xl mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Pengerjaan Cepat</h4>
+                    <p class="text-gray-600">Proses identifikasi masalah dan perbaikan dilakukan dengan efisien tanpa mengorbankan ketelitian dan kualitas hasil.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 reveal group" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-brand-navy text-3xl mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-cogs"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Sparepart Berkualitas</h4>
+                    <p class="text-gray-600">Kami hanya menggunakan suku cadang berkualitas dan original untuk menjamin keawetan dan performa mesin.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 reveal group" style="transition-delay: 300ms;">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-brand-navy text-3xl mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Harga Transparan</h4>
+                    <p class="text-gray-600">Estimasi biaya diberikan di awal secara jujur dan transparan. Tidak ada biaya tersembunyi yang akan mengejutkan Anda.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 reveal group" style="transition-delay: 400ms;">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-brand-navy text-3xl mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Pelayanan Ramah</h4>
+                    <p class="text-gray-600">Staf kami senantiasa memberikan pelayanan yang komunikatif, ramah, dan solutif untuk setiap keluhan pelanggan.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 reveal group" style="transition-delay: 500ms;">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-brand-navy text-3xl mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Garansi Pengerjaan</h4>
+                    <p class="text-gray-600">Setiap pengerjaan di Gun Motor dilindungi oleh garansi. Kami bertanggung jawab penuh atas hasil perbaikan kami.</p>
+                </div>
+            </div>
         </div>
-        <div class="copyright">
-            &copy; 2026 Gun Motor. All Rights Reserved.
+    </section>
+
+    <!-- Jenis Layanan -->
+    <section id="layanan" class="py-24 bg-brand-dark relative overflow-hidden">
+        <!-- Abstract Background -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-navy/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Layanan Kami</h3>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Solusi Menyeluruh Untuk Mobil Anda</h2>
+                <p class="text-gray-400">Dari perawatan rutin hingga perbaikan berat, kami memiliki keahlian dan peralatan untuk menanganinya.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Service Item template -->
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer">
+                    <i class="fa-solid fa-oil-can text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold group-hover:text-white">Ganti Oli</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 50ms;">
+                    <i class="fa-solid fa-wrench text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Servis Berkala</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 100ms;">
+                    <i class="fa-solid fa-gauge-high text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Tune Up</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 150ms;">
+                    <i class="fa-brands fa-superpowers text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Servis Rem</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 200ms;">
+                    <i class="fa-solid fa-gears text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Perbaikan Mesin</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 250ms;">
+                    <i class="fa-solid fa-snowflake text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Servis AC Mobil</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 300ms;">
+                    <i class="fa-solid fa-car-burst text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Kaki-kaki</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 350ms;">
+                    <i class="fa-solid fa-arrows-to-circle text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Spooring</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 400ms;">
+                    <i class="fa-solid fa-scale-balanced text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Balancing</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 450ms;">
+                    <i class="fa-solid fa-bolt text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Kelistrikan Mobil</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 500ms;">
+                    <i class="fa-solid fa-car-battery text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Ganti Aki</h4>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 rounded-xl hover:bg-gray-700 hover:border-brand-navy/50 transition-all duration-300 text-center group reveal cursor-pointer" style="transition-delay: 550ms;">
+                    <i class="fa-solid fa-clipboard-check text-3xl text-gray-400 group-hover:text-brand-navy transition-colors mb-4 block"></i>
+                    <h4 class="text-white font-semibold">Pemeriksaan</h4>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 reveal">
+                <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center gap-2 text-white border-b-2 border-brand-navy hover:text-brand-navy transition-colors pb-1 text-lg font-medium">
+                    Konsultasikan Masalah Mobil Anda <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paket Perbaikan -->
+    <section id="paket" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Harga Transparan</h3>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Paket Perawatan Berkala</h2>
+                <p class="text-gray-600">Pilih paket yang sesuai dengan kebutuhan dan kondisi kendaraan Anda untuk menjaga performa tetap optimal.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <!-- Paket Basic -->
+                <div class="glass-card rounded-2xl p-8 border border-gray-200 shadow-lg reveal group hover:-translate-y-2 transition-transform duration-300">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">Paket Basic</h4>
+                    <p class="text-sm text-gray-500 mb-6">Perawatan ringan rutin</p>
+                    <div class="text-3xl font-extrabold text-gray-900 mb-6">Mulai <span class="text-xl">Rp</span>250k</div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Pemeriksaan kendaraan</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Ganti oli mesin (Biaya Jasa)</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Cek kampas rem</span></li>
+                        <li class="flex items-start gap-3 text-gray-400"><i class="fa-solid fa-xmark mt-1"></i> <span>Tune up mesin</span></li>
+                        <li class="flex items-start gap-3 text-gray-400"><i class="fa-solid fa-xmark mt-1"></i> <span>Cek AC & Kelistrikan</span></li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20Gun%20Motor,%20saya%20tertarik%20dengan%20Paket%20Basic." target="_blank" class="block w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center font-bold rounded-xl transition-colors">Pesan Sekarang</a>
+                </div>
+
+                <!-- Paket Standard (Highlighted) -->
+                <div class="bg-gray-900 rounded-2xl p-8 shadow-2xl reveal transform md:scale-105 border border-gray-800 relative overflow-hidden">
+                    <!-- Ribbon -->
+                    <div class="absolute top-0 right-0 bg-brand-navy text-white text-xs font-bold px-4 py-1 rounded-bl-lg uppercase tracking-wider">Terlaris</div>
+                    
+                    <h4 class="text-xl font-bold text-white mb-2">Paket Standard</h4>
+                    <p class="text-sm text-gray-400 mb-6">Rekomendasi perawatan bulanan</p>
+                    <div class="text-3xl font-extrabold text-white mb-6">Mulai <span class="text-xl">Rp</span>450k</div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-300">Pemeriksaan kendaraan</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-300">Ganti oli mesin (Biaya Jasa)</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-300">Cek kampas & bersihkan rem</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-300">Tune Up mesin standar</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-300">Cek kaki-kaki & AC ringan</span></li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20Gun%20Motor,%20saya%20tertarik%20dengan%20Paket%20Standard." target="_blank" class="block w-full py-3 px-4 bg-brand-navy hover:bg-brand-navyHover text-white text-center font-bold rounded-xl transition-colors shadow-lg shadow-brand-navy/30">Pesan Sekarang</a>
+                </div>
+
+                <!-- Paket Premium -->
+                <div class="glass-card rounded-2xl p-8 border border-gray-200 shadow-lg reveal group hover:-translate-y-2 transition-transform duration-300">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">Paket Premium</h4>
+                    <p class="text-sm text-gray-500 mb-6">Perawatan menyeluruh & detil</p>
+                    <div class="text-3xl font-extrabold text-gray-900 mb-6">Mulai <span class="text-xl">Rp</span>850k</div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Semua layanan Paket Standard</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Tune Up mesin lengkap (Injector)</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Servis AC & Ganti filter kabin</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Scanner komputer kendaraan</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-navy mt-1"></i> <span class="text-gray-600">Cek sistem kelistrikan & aki</span></li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20Gun%20Motor,%20saya%20tertarik%20dengan%20Paket%20Premium." target="_blank" class="block w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center font-bold rounded-xl transition-colors">Pesan Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jam Operasional & FAQ -->
+    <section class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <!-- Info Card -->
+                <div class="lg:col-span-5 reveal reveal-left">
+                    <div class="bg-brand-dark text-white rounded-2xl p-8 md:p-10 shadow-2xl relative overflow-hidden">
+                        <!-- Abstract Shape -->
+                        <div class="absolute top-0 right-0 -mr-16 -mt-16 text-white/5 text-9xl">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-6 flex items-center gap-3 relative z-10">
+                            <i class="fa-regular fa-calendar-check text-brand-navy"></i> Jam Operasional
+                        </h3>
+                        
+                        <div class="space-y-4 relative z-10">
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-4">
+                                <span class="text-gray-300 font-medium">Senin - Jumat</span>
+                                <span class="font-bold">08.00 - 17.00 WIB</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-4">
+                                <span class="text-gray-300 font-medium">Sabtu</span>
+                                <span class="font-bold">08.00 - 15.00 WIB</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-2">
+                                <span class="text-gray-300 font-medium text-brand-navy">Minggu / Libur Nasional</span>
+                                <span class="font-bold text-brand-navy">Tutup</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 pt-6 border-t border-gray-700 relative z-10">
+                            <p class="text-gray-400 text-sm mb-4">Butuh bantuan darurat di luar jam kerja?</p>
+                            <a href="tel:+6281234567890" class="flex items-center gap-3 text-lg font-bold hover:text-brand-navy transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-brand-navy/20 flex items-center justify-center text-brand-navy">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                0812-3456-7890
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Accordion -->
+                <div class="lg:col-span-7 reveal reveal-right">
+                    <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">FAQ</h3>
+                    <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Pertanyaan Umum</h2>
+                    
+                    <div class="space-y-4" id="faq-container">
+                        <!-- FAQ 1 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden">
+                            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-900">Apakah harus booking terlebih dahulu?</span>
+                                <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                            </button>
+                            <div class="faq-content hidden px-6 pb-5 text-gray-600">
+                                Disarankan untuk melakukan booking via WhatsApp agar Anda tidak perlu antre panjang, namun kami juga melayani pelanggan yang datang langsung (walk-in) selama slot pengerjaan masih tersedia.
+                            </div>
+                        </div>
+                        <!-- FAQ 2 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden">
+                            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-900">Berapa lama garansi yang diberikan?</span>
+                                <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                            </button>
+                            <div class="faq-content hidden px-6 pb-5 text-gray-600">
+                                Garansi pengerjaan bervariasi antara 1 minggu hingga 1 bulan tergantung jenis perbaikan. Untuk sparepart original, garansi mengikuti ketentuan dari pabrikan resmi.
+                            </div>
+                        </div>
+                        <!-- FAQ 3 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden">
+                            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-900">Mobil merk apa saja yang bisa diservis?</span>
+                                <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                            </button>
+                            <div class="faq-content hidden px-6 pb-5 text-gray-600">
+                                Kami melayani hampir seluruh merk mobil populer di Indonesia seperti Toyota, Honda, Daihatsu, Suzuki, Mitsubishi, Nissan, serta beberapa merk mobil Eropa dan Amerika.
+                            </div>
+                        </div>
+                        <!-- FAQ 4 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden">
+                            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-900">Apakah melayani perbaikan di tempat (Home Service)?</span>
+                                <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                            </button>
+                            <div class="faq-content hidden px-6 pb-5 text-gray-600">
+                                Saat ini kami melayani Home Service terbatas untuk wilayah Kota dan Kabupaten Madiun khusus untuk masalah ringan seperti ganti aki atau jumper. Untuk perbaikan berat mobil harus dibawa ke bengkel.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri Bengkel -->
+    <section id="galeri" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Galeri Kami</h3>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Aktivitas & Fasilitas Gun Motor</h2>
+                <p class="text-gray-600">Lihat lebih dekat fasilitas bengkel kami dan dedikasi tim mekanik dalam merawat kendaraan pelanggan.</p>
+            </div>
+
+            <!-- CSS Grid Gallery -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Helper to generate 12 placeholder gallery items -->
+                <!-- Item 1 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item">
+                    <img src="https://images.unsplash.com/photo-1632823462998-63eb5d7be457?auto=format&fit=crop&q=80&w=600" alt="Area Bengkel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 50ms;">
+                    <img src="https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?auto=format&fit=crop&q=80&w=600" alt="Mekanik Bekerja" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 100ms;">
+                    <img src="https://images.unsplash.com/photo-1625047509168-a7006f81542f?auto=format&fit=crop&q=80&w=600" alt="Mesin Mobil" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 150ms;">
+                    <img src="https://images.unsplash.com/photo-1605810730811-4433fbefdd76?auto=format&fit=crop&q=80&w=600" alt="Peralatan Bengkel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 200ms;">
+                    <img src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&q=80&w=600" alt="Ganti Oli" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 250ms;">
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&q=80&w=600" alt="Tune Up" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 7 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden md:block" style="transition-delay: 300ms;">
+                    <img src="https://images.unsplash.com/photo-1580274455191-1c62238fa333?auto=format&fit=crop&q=80&w=600" alt="Ruang Tunggu" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 8 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden md:block" style="transition-delay: 350ms;">
+                    <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&q=80&w=600" alt="Servis Berkala" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 9 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 400ms;">
+                    <img src="https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=600" alt="Kaki-kaki Mobil" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 10 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 450ms;">
+                    <img src="https://images.unsplash.com/photo-1600329976269-e685f0990a42?auto=format&fit=crop&q=80&w=600" alt="Scanner Komputer" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 11 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 500ms;">
+                    <img src="https://images.unsplash.com/photo-1549646399-52e67303102d?auto=format&fit=crop&q=80&w=600" alt="Balancing" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+                <!-- Item 12 -->
+                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 550ms;">
+                    <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&q=80&w=600" alt="Hasil Pengerjaan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Element -->
+    <div id="lightbox" class="fixed inset-0 bg-black/90 z-[9999] hidden items-center justify-center p-4">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white text-4xl hover:text-brand-navy focus:outline-none">&times;</button>
+        <img id="lightbox-img" src="" alt="Zoomed Gallery Image" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
+    </div>
+
+    <!-- Testimoni Pelanggan -->
+    <section class="py-24 bg-gray-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Testimoni</h3>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Apa Kata Pelanggan Kami?</h2>
+            </div>
+
+            <!-- CSS Snap Scroll Container for Testimonials -->
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-10 hide-scrollbar" style="scrollbar-width: none;">
+                <!-- Testimoni 1 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"Pengerjaan sangat rapi dan cepat. Mekaniknya komunikatif menjelaskan kerusakan secara transparan tanpa ada biaya siluman. Sangat direkomendasikan!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">B</div>
+                        <div>
+                            <h5 class="font-bold text-gray-900">Budi Santoso</h5>
+                            <span class="text-sm text-gray-500">Honda HRV</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimoni 2 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 100ms;">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"Servis AC di Gun Motor hasilnya memuaskan. AC mobil saya yang sebelumnya panas sekarang jadi super dingin. Harga juga masuk akal."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">A</div>
+                        <div>
+                            <h5 class="font-bold text-gray-900">Agus Pratama</h5>
+                            <span class="text-sm text-gray-500">Toyota Innova</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimoni 3 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 200ms;">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"Langganan servis berkala di sini. Ruang tunggunya nyaman, pelayanan ramah, dan mesin mobil saya selalu terasa enteng sehabis di tune up."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">R</div>
+                        <div>
+                            <h5 class="font-bold text-gray-900">Rina Melati</h5>
+                            <span class="text-sm text-gray-500">Honda Brio</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimoni 4 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 300ms;">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"Perbaikan kaki-kaki mantap. Bunyi gluduk-gluduk hilang total. Pengerjaan teliti dan sparepart yang dipakai beneran ori. Top!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">D</div>
+                        <div>
+                            <h5 class="font-bold text-gray-900">Dimas Anggara</h5>
+                            <span class="text-sm text-gray-500">Mitsubishi Xpander</span>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Testimoni 5 -->
+                 <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 400ms;">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"Bengkel andalan keluarga di Madiun. Harga sangat bersaing dibanding bengkel resmi tapi kualitas pengerjaannya berani diadu."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">H</div>
+                        <div>
+                            <h5 class="font-bold text-gray-900">Hendra Wijaya</h5>
+                            <span class="text-sm text-gray-500">Toyota Avanza</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Scroll Instruction for Mobile -->
+            <div class="text-center text-gray-400 text-sm mt-4 md:hidden">
+                <i class="fa-solid fa-arrows-left-right"></i> Geser untuk melihat lainnya
+            </div>
+        </div>
+    </section>
+
+    <!-- Lokasi & Kontak -->
+    <section id="lokasi" class="py-0 relative flex flex-col lg:flex-row bg-white">
+        <!-- Google Maps -->
+        <div class="w-full lg:w-1/2 h-[400px] lg:h-auto min-h-[500px] relative">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15814.249216480579!2d111.5304!3d-7.6234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMzcnMjQuMiJTIDExMcKwMzEnNDkuNCJF!5e0!3m2!1sid!2sid!4v1630000000000!5m2!1sid!2sid" 
+                class="absolute inset-0 w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <!-- Kontak Info -->
+        <div id="kontak" class="w-full lg:w-1/2 bg-brand-dark text-white px-8 py-20 lg:px-16 lg:py-24 flex items-center">
+            <div class="max-w-lg w-full mx-auto lg:mx-0 reveal reveal-right">
+                <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Kontak & Lokasi</h3>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-8">Kunjungi Bengkel Kami</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-brand-navy flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1">Alamat</h4>
+                            <p class="text-gray-400 leading-relaxed">Jalan Kasatrian No. 71, Kelurahan Nglames,<br>Kecamatan Madiun, Kabupaten Madiun,<br>Jawa Timur.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-brand-navy flex-shrink-0 text-xl">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1">WhatsApp / Telepon</h4>
+                            <p class="text-gray-400"><a href="https://wa.me/6281234567890" target="_blank" class="hover:text-brand-navy transition-colors">+62 812 3456 7890</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-brand-navy flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1">Email</h4>
+                            <p class="text-gray-400"><a href="mailto:info@gunmotor.com" class="hover:text-brand-navy transition-colors">info@gunmotor.com</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <a href="https://maps.google.com/?q=Jalan+Kasatrian+No.+71,+Nglames,+Madiun" target="_blank" class="inline-flex items-center justify-center gap-2 bg-brand-navy hover:bg-brand-navyHover text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-1 shadow-lg shadow-brand-navy/30 w-full sm:w-auto">
+                        Buka di Google Maps <i class="fa-solid fa-map-location-dot"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#0a0f18] text-white pt-20 pb-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Info -->
+                <div class="col-span-1 lg:col-span-1">
+                    <a href="#home" class="flex items-center gap-2 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-brand-navy flex items-center justify-center text-white font-bold text-xl">
+                            <i class="fa-solid fa-wrench"></i>
+                        </div>
+                        <span class="font-bold text-2xl tracking-tight">GUN <span class="text-brand-navy">MOTOR</span></span>
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Bengkel mobil terpercaya di Madiun dengan pelayanan profesional, mekanik handal, dan harga transparan untuk semua kebutuhan kendaraan Anda.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-navy flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-navy flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-navy flex items-center justify-center transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Navigasi -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 relative inline-block">
+                        Navigasi Cepat
+                        <span class="absolute bottom-0 left-0 w-1/2 h-0.5 bg-brand-navy -mb-2"></span>
+                    </h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#home" class="hover:text-brand-navy transition-colors"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Beranda</a></li>
+                        <li><a href="#tentang" class="hover:text-brand-navy transition-colors"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Tentang Kami</a></li>
+                        <li><a href="#layanan" class="hover:text-brand-navy transition-colors"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Layanan</a></li>
+                        <li><a href="#paket" class="hover:text-brand-navy transition-colors"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Harga Paket</a></li>
+                        <li><a href="#galeri" class="hover:text-brand-navy transition-colors"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Galeri</a></li>
+                    </ul>
+                </div>
+
+                <!-- Layanan Utama -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 relative inline-block">
+                        Layanan Utama
+                        <span class="absolute bottom-0 left-0 w-1/2 h-0.5 bg-brand-navy -mb-2"></span>
+                    </h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><span class="hover:text-brand-navy transition-colors cursor-pointer"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Tune Up Mesin</span></li>
+                        <li><span class="hover:text-brand-navy transition-colors cursor-pointer"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Ganti Oli Berkala</span></li>
+                        <li><span class="hover:text-brand-navy transition-colors cursor-pointer"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Servis Kaki-kaki</span></li>
+                        <li><span class="hover:text-brand-navy transition-colors cursor-pointer"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Perbaikan AC Mobil</span></li>
+                        <li><span class="hover:text-brand-navy transition-colors cursor-pointer"><i class="fa-solid fa-chevron-right text-xs mr-2 text-brand-navy"></i> Spooring & Balancing</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jam Kerja -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 relative inline-block">
+                        Jam Buka
+                        <span class="absolute bottom-0 left-0 w-1/2 h-0.5 bg-brand-navy -mb-2"></span>
+                    </h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex justify-between border-b border-gray-800 pb-2">
+                            <span>Senin - Jumat</span>
+                            <span>08.00 - 17.00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-800 pb-2">
+                            <span>Sabtu</span>
+                            <span>08.00 - 15.00</span>
+                        </li>
+                        <li class="flex justify-between text-brand-navy">
+                            <span>Minggu / Libur</span>
+                            <span>Tutup</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Gun Motor. All Rights Reserved.</p>
+                <div class="mt-4 md:mt-0 space-x-4">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- Script Sederhana -->
+    <!-- Floating Buttons -->
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/6281234567890" target="_blank" class="fixed bottom-6 left-6 z-40 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg hover:bg-[#1ebd5a] transition-transform hover:scale-110 animate-bounce" style="animation-duration: 3s;">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    
+    <!-- Back to top Float -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-40 bg-gray-800/80 backdrop-blur text-white w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-lg hover:bg-brand-navy transition-all transform translate-y-20 opacity-0 focus:outline-none">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
     <script>
-        // Efek navbar mengecil saat di-scroll
-        window.addEventListener('scroll', function() {
-            let header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.padding = '10px 5%';
-            } else {
-                header.style.padding = '1rem 5%';
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Loading Screen Removal
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1000); // 1 second minimal load simulation
+
+            // 2. Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            const icon = mobileBtn.querySelector('i');
+
+            function toggleMenu() {
+                mobileMenu.classList.toggle('hidden');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                }
             }
+
+            mobileBtn.addEventListener('click', toggleMenu);
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(!mobileMenu.classList.contains('hidden')) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            // 3. Sticky Navbar & Back to Top behavior
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('py-2', 'bg-brand-dark/95');
+                    navbar.classList.remove('py-4', 'glass-dark');
+                } else {
+                    navbar.classList.add('py-4', 'glass-dark');
+                    navbar.classList.remove('py-2', 'bg-brand-dark/95');
+                }
+
+                if (window.scrollY > 400) {
+                    backToTop.classList.remove('translate-y-20', 'opacity-0');
+                } else {
+                    backToTop.classList.add('translate-y-20', 'opacity-0');
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // 4. Scroll Reveal Animation using Intersection Observer
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Optional: animate only once
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealOnScroll.observe(el);
+            });
+
+            // 5. FAQ Accordion Logic
+            const faqBtns = document.querySelectorAll('.faq-btn');
+            
+            faqBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    const isOpen = !content.classList.contains('hidden');
+                    
+                    // Close all others
+                    document.querySelectorAll('.faq-content').forEach(el => el.classList.add('hidden'));
+                    document.querySelectorAll('.faq-btn i').forEach(el => el.style.transform = 'rotate(0deg)');
+                    
+                    if (!isOpen) {
+                        content.classList.remove('hidden');
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // 6. Basic Lightbox for Gallery
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.querySelector('img').src;
+                    lightboxImg.src = imgSrc;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // prevent bg scrolling
+                });
+            });
+
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            };
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
         });
     </script>
-
 </body>
 </html>
