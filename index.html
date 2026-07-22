@@ -93,6 +93,15 @@
         ::-webkit-scrollbar-thumb { background: #1E3A8A; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #1E40AF; }
 
+        /* Sembunyikan scrollbar untuk slider testimoni */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
         /* Loader */
         #loader {
             position: fixed; inset: 0; z-index: 9999;
@@ -659,89 +668,99 @@
         <img id="lightbox-img" src="" alt="Zoomed Gallery Image" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
     </div>
 
-    <!-- Testimoni Pelanggan -->
-    <section class="py-24 bg-gray-50 overflow-hidden">
+    <!-- Testimoni Pelanggan (Bisa Digeser) -->
+    <section class="py-24 bg-gray-50 overflow-hidden relative border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16 reveal">
                 <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Testimoni</h3>
                 <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Apa Kata Pelanggan Kami?</h2>
             </div>
 
-            <!-- CSS Snap Scroll Container for Testimonials -->
-            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-10 hide-scrollbar" style="scrollbar-width: none;">
-                <!-- Testimoni 1 -->
-                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal">
-                    <div class="flex text-yellow-400 mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Pengerjaan sangat rapi dan cepat. Mekaniknya komunikatif menjelaskan kerusakan secara transparan tanpa ada biaya siluman. Sangat direkomendasikan!"</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">B</div>
-                        <div>
-                            <h5 class="font-bold text-gray-900">Budi Santoso</h5>
-                            <span class="text-sm text-gray-500">Honda HRV</span>
+            <!-- Area Container Slider -->
+            <div class="relative max-w-7xl mx-auto reveal cursor-grab active:cursor-grabbing">
+                
+                <!-- Track Testimoni -->
+                <div id="testimonial-track" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 transition-transform">
+                    
+                    <!-- Kotak Testimoni 1 -->
+                    <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white p-8 rounded-2xl shadow-lg border border-gray-100 select-none">
+                        <div class="flex text-yellow-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"Pelayanan sangat memuaskan. Mekanik handal dan harga transparan. Ganti oli dan tune up cepat selesai!"</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-brand-navy/10 rounded-full flex items-center justify-center text-brand-navy font-bold text-xl">B</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Budi Santoso</h4>
+                                <p class="text-sm text-gray-500">Local Guide</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Testimoni 2 -->
-                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 100ms;">
-                    <div class="flex text-yellow-400 mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Servis AC di Gun Motor hasilnya memuaskan. AC mobil saya yang sebelumnya panas sekarang jadi super dingin. Harga juga masuk akal."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">A</div>
-                        <div>
-                            <h5 class="font-bold text-gray-900">Agus Pratama</h5>
-                            <span class="text-sm text-gray-500">Toyota Innova</span>
+
+                    <!-- Kotak Testimoni 2 -->
+                    <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white p-8 rounded-2xl shadow-lg border border-gray-100 select-none">
+                        <div class="flex text-yellow-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"Bengkel andalan di Madiun. Hasil pengerjaan rapi dan mekaniknya jujur kalau ada sparepart yang masih bisa dipakai."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-brand-navy/10 rounded-full flex items-center justify-center text-brand-navy font-bold text-xl">A</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Andi Pratama</h4>
+                                <p class="text-sm text-gray-500">Pelanggan Setia</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Testimoni 3 -->
-                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 200ms;">
-                    <div class="flex text-yellow-400 mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Langganan servis berkala di sini. Ruang tunggunya nyaman, pelayanan ramah, dan mesin mobil saya selalu terasa enteng sehabis di tune up."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">R</div>
-                        <div>
-                            <h5 class="font-bold text-gray-900">Rina Melati</h5>
-                            <span class="text-sm text-gray-500">Honda Brio</span>
+
+                    <!-- Kotak Testimoni 3 -->
+                    <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white p-8 rounded-2xl shadow-lg border border-gray-100 select-none">
+                        <div class="flex text-yellow-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"Ruang tunggunya nyaman. Servis AC mobil di sini dinginnya awet. Sangat direkomendasikan untuk yang cari bengkel jujur."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-brand-navy/10 rounded-full flex items-center justify-center text-brand-navy font-bold text-xl">S</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Siti Rahma</h4>
+                                <p class="text-sm text-gray-500">Local Guide</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Testimoni 4 -->
-                <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 300ms;">
-                    <div class="flex text-yellow-400 mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Perbaikan kaki-kaki mantap. Bunyi gluduk-gluduk hilang total. Pengerjaan teliti dan sparepart yang dipakai beneran ori. Top!"</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">D</div>
-                        <div>
-                            <h5 class="font-bold text-gray-900">Dimas Anggara</h5>
-                            <span class="text-sm text-gray-500">Mitsubishi Xpander</span>
+
+                    <!-- Kotak Testimoni 4 (Awalnya tersembunyi di kanan) -->
+                    <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white p-8 rounded-2xl shadow-lg border border-gray-100 select-none">
+                        <div class="flex text-yellow-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"Respons cepat, pengerjaan tepat waktu. Sukses terus untuk Gun Motor. Sangat puas dengan layanan paket lengkapnya."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-brand-navy/10 rounded-full flex items-center justify-center text-brand-navy font-bold text-xl">D</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Dimas Anggara</h4>
+                                <p class="text-sm text-gray-500">Pelanggan Setia</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                 <!-- Testimoni 5 -->
-                 <div class="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-2xl shadow-sm border border-gray-100 snap-center reveal" style="transition-delay: 400ms;">
-                    <div class="flex text-yellow-400 mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Bengkel andalan keluarga di Madiun. Harga sangat bersaing dibanding bengkel resmi tapi kualitas pengerjaannya berani diadu."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-gray-500">H</div>
-                        <div>
-                            <h5 class="font-bold text-gray-900">Hendra Wijaya</h5>
-                            <span class="text-sm text-gray-500">Toyota Avanza</span>
+
+                    <!-- Kotak Testimoni 5 (Awalnya tersembunyi di kanan) -->
+                    <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white p-8 rounded-2xl shadow-lg border border-gray-100 select-none">
+                        <div class="flex text-yellow-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"Bengkel andalan keluarga di Madiun. Harga sangat bersaing dibanding bengkel resmi tapi kualitas pengerjaannya berani diadu."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-brand-navy/10 rounded-full flex items-center justify-center text-brand-navy font-bold text-xl">D</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Faris Dwiki</h4>
+                                <p class="text-sm text-gray-500">Pelanggan Setia</p>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
-            <!-- Scroll Instruction for Mobile -->
-            <div class="text-center text-gray-400 text-sm mt-4 md:hidden">
+            <!-- Scroll Instruction -->
+            <div class="text-center text-gray-400 text-sm mt-4 md:hidden animate-pulse">
                 <i class="fa-solid fa-arrows-left-right"></i> Geser untuk melihat lainnya
             </div>
         </div>
@@ -1059,6 +1078,44 @@
                     closeLightbox();
                 }
             });
+
+            // 7. Drag Testimoni
+            const testiTrack = document.getElementById('testimonial-track');
+        
+            if (testiTrack) {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+    
+                // Saat mouse ditekan
+                testiTrack.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    testiTrack.classList.remove('snap-x', 'snap-mandatory'); // Matikan snap saat digeser manual agar mulus
+                    startX = e.pageX - testiTrack.offsetLeft;
+                    scrollLeft = testiTrack.scrollLeft;
+                });
+    
+                // Saat mouse meninggalkan area
+                testiTrack.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    testiTrack.classList.add('snap-x', 'snap-mandatory'); // Nyalakan snap kembali
+                });
+    
+                // Saat klik mouse dilepas
+                testiTrack.addEventListener('mouseup', () => {
+                    isDown = false;
+                    testiTrack.classList.add('snap-x', 'snap-mandatory'); // Nyalakan snap kembali
+                });
+    
+                // Saat mouse digerakkan (digeser)
+                testiTrack.addEventListener('mousemove', (e) => {
+                    if (!isDown) return; // Hentikan fungsi jika mouse tidak sedang ditekan
+                    e.preventDefault();
+                    const x = e.pageX - testiTrack.offsetLeft;
+                    const walk = (x - startX) * 1.5; // Angka 1.5 adalah kecepatan geser. Semakin besar = semakin cepat
+                    testiTrack.scrollLeft = scrollLeft - walk;
+                });
+            };
         });
     </script>
 </body>
