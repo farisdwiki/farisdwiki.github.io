@@ -562,106 +562,127 @@
         </div>
     </section>
 
-    <!-- Galeri Bengkel -->
-    <section id="galeri" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Galeri Bengkel (12 Gambar: Geser di HP, Grid di PC) -->
+    <section id="galeri" class="py-24 bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="text-center max-w-3xl mx-auto mb-16 reveal">
                 <h3 class="text-brand-navy font-bold tracking-wider uppercase mb-2">Galeri Kami</h3>
                 <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Aktivitas & Fasilitas Gun Motor</h2>
-                <p class="text-gray-600">Lihat lebih dekat fasilitas bengkel kami dan dedikasi tim mekanik dalam merawat kendaraan pelanggan.</p>
+                <p class="text-gray-600">Lihat fasilitas bengkel kami. Klik gambar untuk memperbesar.</p>
             </div>
 
-            <!-- CSS Grid Gallery -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <!-- Helper to generate 12 placeholder gallery items -->
-                <!-- Item 1 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item">
-                    <img src="images/0.jpeg" alt="Area Bengkel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+            <!-- Area Container Slider/Grid Galeri -->
+            <div class="relative max-w-7xl mx-auto reveal" id="gallery-container">
+
+                <!-- Track Galeri (Flex di HP, Grid 4 Kolom di Laptop) -->
+                <div id="gallery-track" class="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none scrollbar-hide pb-8 md:pb-0 transition-transform cursor-grab active:cursor-grabbing md:cursor-default md:active:cursor-default">
+                    
+                    <!-- Item 1 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item">
+                        <img src="images/0.jpeg" alt="Area Bengkel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 2 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 50ms;">
-                    <img src="images/12.jpg" alt="Mekanik Bekerja" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    
+                    <!-- Item 2 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 50ms;">
+                        <img src="images/12.jpg" alt="Mekanik Bekerja" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 3 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 100ms;">
-                    <img src="images/15.jpg" alt="Mesin Mobil" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    
+                    <!-- Item 3 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 100ms;">
+                        <img src="images/15.jpg" alt="Mesin Mobil" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 150ms;">
-                    <img src="images/16.jpg" alt="Peralatan Bengkel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                    
+                    <!-- Item 4 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 150ms;">
+                        <img src="images/16.jpg" alt="Peralatan Bengkel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 5 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 200ms;">
-                    <img src="images/22.jpg" alt="Ganti Oli" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 5 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 200ms;">
+                        <img src="images/22.jpg" alt="Ganti Oli" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 6 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item" style="transition-delay: 250ms;">
-                    <img src="images/26.jpeg" alt="Tune Up" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 6 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 250ms;">
+                        <img src="images/26.jpeg" alt="Tune Up" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 7 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden md:block" style="transition-delay: 300ms;">
-                    <img src="images/4.jpg" alt="Ruang Tunggu" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 7 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 300ms;">
+                        <img src="images/4.jpg" alt="Ruang Tunggu" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 8 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden md:block" style="transition-delay: 350ms;">
-                    <img src="images/41.jpeg" alt="Servis Berkala" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 8 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 350ms;">
+                        <img src="images/41.jpeg" alt="Servis Berkala" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 9 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 400ms;">
-                    <img src="images/42.jpeg" alt="Kaki-kaki Mobil" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 9 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 400ms;">
+                        <img src="images/42.jpeg" alt="Kaki-kaki Mobil" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 10 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 450ms;">
-                    <img src="images/44.jpg" alt="Scanner Komputer" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 10 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 450ms;">
+                        <img src="images/44.jpg" alt="Scanner Komputer" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 11 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 500ms;">
-                    <img src="images/7.jpg" alt="Balancing" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 11 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 500ms;">
+                        <img src="images/7.jpg" alt="Balancing" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 12 -->
-                <div class="relative overflow-hidden rounded-xl group cursor-pointer h-48 md:h-64 reveal gallery-item hidden lg:block" style="transition-delay: 550ms;">
-                    <img src="images/9.jpg" alt="Hasil Pengerjaan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+
+                    <!-- Item 12 -->
+                    <div class="snap-center md:snap-align-none shrink-0 md:shrink w-[80%] md:w-full relative overflow-hidden rounded-xl group h-56 md:h-64 gallery-item" style="transition-delay: 550ms;">
+                        <img src="images/9.jpg" alt="Hasil Pengerjaan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:pointer-events-auto pointer-events-none">
+                        <div class="absolute inset-0 bg-brand-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
+                        </div>
                     </div>
+
                 </div>
+            </div>
+            
+            <!-- Scroll Instruction (Hanya tampil di HP) -->
+            <div class="md:hidden text-center text-gray-400 text-sm mt-4 animate-pulse">
+                <i class="fa-solid fa-arrows-left-right"></i> Geser untuk melihat lainnya
             </div>
         </div>
     </section>
-
+    
     <!-- Lightbox Element -->
     <div id="lightbox" class="fixed inset-0 bg-black/90 z-[9999] hidden items-center justify-center p-4">
         <button id="lightbox-close" class="absolute top-6 right-6 text-white text-4xl hover:text-brand-navy focus:outline-none">&times;</button>
@@ -1052,21 +1073,62 @@
                 });
             });
 
-            // 6. Basic Lightbox for Gallery
+            // 6 & 7. Drag Slider & Lightbox Logic (Digabung agar tidak bentrok)
+            const galleryTrack = document.getElementById('gallery-track');
             const galleryItems = document.querySelectorAll('.gallery-item');
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const lightboxClose = document.getElementById('lightbox-close');
+            
+            let isDraggingGallery = false;
+            let startXGallery;
+            let scrollLeftGallery;
 
+            // Logika Geser (Mouse Drag) untuk Galeri
+            if (galleryTrack) {
+                galleryTrack.addEventListener('mousedown', (e) => {
+                    isDraggingGallery = false; // Reset status
+                    galleryTrack.classList.remove('snap-x', 'snap-mandatory');
+                    startXGallery = e.pageX - galleryTrack.offsetLeft;
+                    scrollLeftGallery = galleryTrack.scrollLeft;
+                });
+
+                galleryTrack.addEventListener('mouseleave', () => {
+                    galleryTrack.classList.add('snap-x', 'snap-mandatory');
+                });
+
+                galleryTrack.addEventListener('mouseup', () => {
+                    galleryTrack.classList.add('snap-x', 'snap-mandatory');
+                });
+
+                galleryTrack.addEventListener('mousemove', (e) => {
+                    if (e.buttons !== 1) return; // Cek apakah klik kiri ditekan
+                    isDraggingGallery = true; // Tandai bahwa user sedang menggeser
+                    e.preventDefault();
+                    const x = e.pageX - galleryTrack.offsetLeft;
+                    const walk = (x - startXGallery) * 1.5;
+                    galleryTrack.scrollLeft = scrollLeftGallery - walk;
+                });
+            }
+
+            // Logika Membuka Lightbox (Hanya buka jika TIDAK sedang digeser)
             galleryItems.forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', (e) => {
+                    // Jika user baru saja menggeser, batalkan perintah klik (jangan buka lightbox)
+                    if (isDraggingGallery) {
+                        e.preventDefault();
+                        isDraggingGallery = false;
+                        return;
+                    }
+                    
                     const imgSrc = item.querySelector('img').src;
                     lightboxImg.src = imgSrc;
                     lightbox.classList.add('active');
-                    document.body.style.overflow = 'hidden'; // prevent bg scrolling
+                    document.body.style.overflow = 'hidden';
                 });
             });
 
+            // Logika Menutup Lightbox
             const closeLightbox = () => {
                 lightbox.classList.remove('active');
                 document.body.style.overflow = 'auto';
@@ -1074,12 +1136,10 @@
 
             lightboxClose.addEventListener('click', closeLightbox);
             lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) {
-                    closeLightbox();
-                }
+                if (e.target === lightbox) closeLightbox();
             });
 
-            // 7. Drag Testimoni
+            // 8. Drag Testimoni
             const testiTrack = document.getElementById('testimonial-track');
         
             if (testiTrack) {
