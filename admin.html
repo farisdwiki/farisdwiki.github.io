@@ -89,19 +89,15 @@
                         <p class="text-brand-navy font-bold uppercase tracking-widest text-xs mt-5 mb-2">Pusat Kendali
                             Harga</p>
                         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Dashboard Sparepart</h2>
-                        <p class="text-slate-500 mt-2">Kelola, import, dan sinkronkan data harga ke Google Sheet.</p>
+                        <p class="text-slate-500 mt-2">Kelola data sparepart Gun Motor.</p>
                     </div><button id="admin-logout"
                         class="self-start md:self-auto border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 rounded-lg px-4 py-2 font-semibold"><i
                             class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Keluar</button>
                 </div>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <div class="admin-kpi rounded-xl p-5 text-white">
                         <p class="text-white/70 text-xs uppercase tracking-wider">Total Data</p>
                         <p id="kpi-total" class="text-3xl font-extrabold mt-2">0</p>
-                    </div>
-                    <div class="admin-kpi rounded-xl p-5 text-white">
-                        <p class="text-white/70 text-xs uppercase tracking-wider">Harga Terendah</p>
-                        <p id="kpi-low" class="text-2xl font-extrabold mt-2">Rp 0</p>
                     </div>
                     <div class="admin-kpi rounded-xl p-5 text-white">
                         <p class="text-white/70 text-xs uppercase tracking-wider">Update Terakhir</p>
@@ -109,11 +105,35 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-8">
+                    <div class="xl:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-5">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900">Import Data</h3>
+                                <p class="text-sm text-slate-500">Unggah file `.xlsx` sesuai template yang tersedia.</p>
+                            </div><i class="fa-solid fa-file-import text-emerald-600 text-xl"></i>
+                        </div>
+                        <div class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-brand-navy transition-colors">
+                            <i class="fa-solid fa-file-excel text-4xl text-emerald-600 mb-3"></i>
+                            <p class="font-semibold text-slate-700">Tarik file ke sini atau pilih dari perangkat</p>
+                            <p class="text-xs text-slate-400 mt-1">Struktur: nama, stok, satuan, harga.</p>
+                            <input id="spreadsheet-input" type="file" accept=".xlsx"
+                                class="block w-full mt-5 text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:font-semibold file:text-slate-700">
+                        </div>
+                        <div class="mt-5 flex flex-wrap items-center gap-3">
+                            <button id="import-data" type="button" disabled
+                                class="rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white px-4 py-2 text-sm font-bold">
+                                <i class="fa-solid fa-upload mr-2"></i>Import Data
+                            </button>
+                            <button id="download-template" type="button" class="text-sm font-semibold text-brand-navy"><i
+                                    class="fa-solid fa-download mr-2"></i>Unduh Template XLSX</button>
+                            <span id="import-status" class="text-sm text-slate-500"></span>
+                        </div>
+                    </div>
                     <div class="xl:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                         <div class="flex items-center justify-between mb-5">
                             <div>
-                                <h3 class="font-bold text-lg text-slate-900">Input Harga</h3>
-                                <p class="text-sm text-slate-500">Tambah satu item sparepart.</p>
+                                <h3 class="font-bold text-lg text-slate-900">Input Data</h3>
+                                <p class="text-sm text-slate-500">Tambah item sparepart.</p>
                             </div><i class="fa-solid fa-pen-to-square text-brand-navy text-xl"></i>
                         </div>
                         <form id="sparepart-form" class="space-y-4">
@@ -123,49 +143,33 @@
                                     placeholder="Contoh: Kampas Rem Depan"></div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="block text-sm font-semibold text-slate-700 mb-1"
-                                        for="part-unit">Satuan</label><input id="part-unit" required
-                                        class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
-                                        placeholder="pcs"></div>
-                                <div><label class="block text-sm font-semibold text-slate-700 mb-1"
                                         for="part-stock">Stok</label><input id="part-stock" type="number" min="0"
                                         value="0"
                                         class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy">
                                 </div>
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1"
+                                        for="part-unit">Satuan</label><input id="part-unit" required
+                                        class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
+                                        placeholder="pcs"></div>
                             </div>
                             <div><label class="block text-sm font-semibold text-slate-700 mb-1" for="part-price">Harga
                                     (Rp)</label><input id="part-price" type="number" min="0" required
                                     class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
                                     placeholder="350000"></div><button
-                                    class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold"><i
-                                    id="form-submit-icon" class="fa-solid fa-plus mr-2"></i><span id="form-submit-label">Simpan Data</span></button>
-                                <button id="cancel-edit" type="button" class="hidden w-full border border-slate-300 text-slate-600 rounded-lg py-3 font-semibold">Batal Edit</button>
+                                class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold"><i
+                                    id="form-submit-icon" class="fa-solid fa-plus mr-2"></i><span
+                                    id="form-submit-label">Tambah Data</span></button>
+                            <button id="cancel-edit" type="button"
+                                class="hidden w-full border border-slate-300 text-slate-600 rounded-lg py-3 font-semibold">Batal
+                                Edit</button>
                         </form>
-                    </div>
-                    <div class="xl:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <div class="flex items-center justify-between mb-5">
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-900">Import Data</h3>
-                                <p class="text-sm text-slate-500">Unggah file `.xlsx` sesuai struktur Google Sheet.</p>
-                            </div><i class="fa-solid fa-file-import text-emerald-600 text-xl"></i>
-                        </div>
-                        <div
-                            class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-brand-navy transition-colors">
-                            <i class="fa-solid fa-file-excel text-4xl text-emerald-600 mb-3"></i>
-                            <p class="font-semibold text-slate-700">Tarik file ke sini atau pilih dari perangkat</p>
-                                <p class="text-xs text-slate-400 mt-1">Struktur: nama, satuan, harga, stok.</p><input id="spreadsheet-input" type="file" accept=".xlsx"
-                                class="block w-full mt-5 text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:font-semibold file:text-slate-700">
-                        </div>
-                        <div class="mt-5 flex flex-wrap gap-3"><button id="download-template"
-                                class="text-sm font-semibold text-brand-navy"><i
-                                    class="fa-solid fa-download mr-2"></i>Unduh Template XLSX</button><span
-                                id="import-status" class="text-sm text-slate-500"></span></div>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div
                         class="p-6 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                         <div>
-                            <h3 class="font-bold text-lg text-slate-900">Data Harga Sparepart</h3>
+                            <h3 class="font-bold text-lg text-slate-900">Data Sparepart</h3>
                             <p class="text-sm text-slate-500">Data tersimpan lokal dan siap disinkronkan ke Google
                                 Sheet.</p>
                         </div>
@@ -174,26 +178,37 @@
                                 placeholder="Cari sparepart..."><button id="sync-sheet"
                                 class="rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 text-sm font-bold"><i
                                     class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync Sheet</button></div>
-                        <p id="sheet-sync-status" class="mt-3 text-xs text-slate-400">Menghubungkan ke Google Sheet...</p>
+                        <p id="sheet-sync-status" class="mt-3 text-xs text-slate-400">Menghubungkan ke Google Sheet...
+                        </p>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="admin-table w-full text-left text-sm">
+                        <div class="max-h-[520px] overflow-y-auto">
+                            <table class="admin-table w-full text-left text-sm">
                             <thead class="bg-slate-50 text-slate-500 uppercase text-xs">
                                 <tr>
-                                    <th class="px-6 py-4">Sparepart</th>
+                                    <th class="px-6 py-4">No</th>
+                                    <th class="px-6 py-4">Nama</th>
+                                    <th class="px-6 py-4">Stok</th>
                                     <th class="px-6 py-4">Satuan</th>
                                     <th class="px-6 py-4">Harga</th>
-                                    <th class="px-6 py-4">Stok</th>
                                     <th class="px-6 py-4">Update</th>
                                     <th class="px-6 py-4">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="parts-table" class="divide-y divide-slate-100"></tbody>
-                        </table>
+                            </table>
+                        </div>
                     </div>
                     <div id="empty-state" class="hidden p-12 text-center text-slate-400"><i
                             class="fa-solid fa-box-open text-4xl mb-3"></i>
                         <p>Belum ada data yang sesuai.</p>
+                    </div>
+                    <div id="pagination" class="hidden border-t border-slate-100 px-6 py-4 flex items-center justify-between gap-4">
+                        <p id="pagination-info" class="text-sm text-slate-500"></p>
+                        <div class="flex gap-2">
+                            <button id="previous-page" type="button" class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed">Sebelumnya</button>
+                            <button id="next-page" type="button" class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed">Berikutnya</button>
+                        </div>
                     </div>
                 </div>
                 <p id="admin-toast"
@@ -208,8 +223,10 @@
             const loginPanel = document.getElementById('admin-login'), dashboard = document.getElementById('admin-dashboard');
             const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbyQw480IteDpkF4tKlprxUX2T5UusRrNKfGHOXh3g7xd_7VZsVO0GSQDwVh-p235hrY/exec', syncInterval = 30000;
             let parts = JSON.parse(localStorage.getItem(storageKey) || '[]').map(part => ({ nama: part.nama, satuan: part.satuan || 'pcs', harga: Number(part.harga || 0), stok: Number(part.stok || 0), id: part.id, updatedAt: part.updatedAt }));
-            let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, editingId = null;
+            let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, editingId = null, currentPage = 1;
+            const pageSize = 10;
             const formatPrice = value => `Rp ${Number(value || 0).toLocaleString('id-ID')}`;
+            const formatUpdateTime = value => { if (!value) return 'Belum ada'; const date = new Date(value); if (Number.isNaN(date.getTime())) return value; const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jakarta', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(date).reduce((result, part) => ({ ...result, [part.type]: part.value }), {}); return `${parts.day}/${parts.month}/${parts.year} ${parts.hour}:${parts.minute}`; };
             const saveParts = () => localStorage.setItem(storageKey, JSON.stringify(parts));
             const setSyncStatus = message => { document.getElementById('sheet-sync-status').textContent = message; };
             const syncToSheet = async (showToast = false) => {
@@ -245,24 +262,32 @@
             const scheduleSync = () => { clearTimeout(syncTimer); syncTimer = setTimeout(() => syncToSheet(), 1200); };
             const toast = message => { const element = document.getElementById('admin-toast'); element.textContent = message; element.classList.remove('hidden'); setTimeout(() => element.classList.add('hidden'), 2800); };
             const resetForm = () => { editingId = null; document.getElementById('sparepart-form').reset(); document.getElementById('part-stock').value = 0; document.getElementById('form-submit-icon').className = 'fa-solid fa-plus mr-2'; document.getElementById('form-submit-label').textContent = 'Simpan Data'; document.getElementById('cancel-edit').classList.add('hidden'); };
-            const startEdit = part => { editingId = String(part.id); document.getElementById('part-name').value = part.nama; document.getElementById('part-unit').value = part.satuan; document.getElementById('part-price').value = part.harga; document.getElementById('part-stock').value = part.stok; document.getElementById('form-submit-icon').className = 'fa-solid fa-floppy-disk mr-2'; document.getElementById('form-submit-label').textContent = 'Update Data'; document.getElementById('cancel-edit').classList.remove('hidden'); document.getElementById('part-name').focus(); };
+            const startEdit = part => { editingId = String(part.id); document.getElementById('part-name').value = part.nama; document.getElementById('part-unit').value = part.satuan; document.getElementById('part-price').value = part.harga; document.getElementById('form-submit-icon').className = 'fa-solid fa-floppy-disk mr-2'; document.getElementById('form-submit-label').textContent = 'Update Data'; document.getElementById('cancel-edit').classList.remove('hidden'); document.getElementById('part-name').focus(); };
             const renderParts = () => {
                 const query = document.getElementById('part-search').value.toLowerCase();
                 const visible = parts.filter(part => `${part.nama} ${part.satuan}`.toLowerCase().includes(query));
-                document.getElementById('parts-table').innerHTML = visible.map(part => `<tr><td class="px-6 py-4 font-semibold text-slate-800">${part.nama}</td><td class="px-6 py-4 text-slate-500">${part.satuan}</td><td class="px-6 py-4 font-bold text-slate-800">${formatPrice(part.harga)}</td><td class="px-6 py-4 text-slate-600">${part.stok}</td><td class="px-6 py-4 text-slate-500">${part.updatedAt}</td><td class="px-6 py-4"><button data-edit="${part.id}" title="Edit data" class="text-brand-navy hover:text-brand-navyHover mr-3"><i class="fa-solid fa-pen"></i></button><button data-delete="${part.id}" title="Hapus data" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
-                document.getElementById('empty-state').classList.toggle('hidden', visible.length > 0); document.getElementById('kpi-total').textContent = parts.length; document.getElementById('kpi-low').textContent = formatPrice(parts.length ? Math.min(...parts.map(part => Number(part.harga))) : 0); document.getElementById('kpi-updated').textContent = parts.length ? parts[parts.length - 1].updatedAt : 'Belum ada';
+                const totalPages = Math.max(1, Math.ceil(visible.length / pageSize));
+                currentPage = Math.min(currentPage, totalPages);
+                const pageParts = visible.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+                document.getElementById('parts-table').innerHTML = pageParts.map((part, index) => `<tr><td class="px-6 py-4 text-slate-500">${(currentPage - 1) * pageSize + index + 1}</td><td class="px-6 py-4 font-semibold text-slate-800">${part.nama}</td><td class="px-6 py-4 text-slate-600">${part.stok}</td><td class="px-6 py-4 text-slate-500">${part.satuan}</td><td class="px-6 py-4 font-bold text-slate-800">${formatPrice(part.harga)}</td><td class="px-6 py-4 text-slate-500">${formatUpdateTime(part.updatedAt)}</td><td class="px-6 py-4"><button data-edit="${part.id}" title="Edit data" class="text-brand-navy hover:text-brand-navyHover mr-3"><i class="fa-solid fa-pen"></i></button><button data-delete="${part.id}" title="Hapus data" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
+                const latestPart = parts.reduce((latest, part) => new Date(part.updatedAt || 0) > new Date(latest?.updatedAt || 0) ? part : latest, null);
+                document.getElementById('empty-state').classList.toggle('hidden', visible.length > 0); document.getElementById('kpi-total').textContent = parts.length; document.getElementById('kpi-updated').textContent = formatUpdateTime(latestPart?.updatedAt);
+                document.getElementById('pagination').classList.toggle('hidden', visible.length <= pageSize); document.getElementById('pagination-info').textContent = `Halaman ${currentPage} dari ${totalPages} (${visible.length} data)`; document.getElementById('previous-page').disabled = currentPage === 1; document.getElementById('next-page').disabled = currentPage === totalPages;
             };
             const addPart = data => { parts.push({ ...data, id: data.id || Date.now() + Math.random(), updatedAt: data.updatedAt || new Date().toISOString() }); saveParts(); renderParts(); scheduleSync(); };
             const showDashboard = () => { loginPanel.classList.add('hidden'); dashboard.classList.remove('hidden'); renderParts(); loadFromSheet(); setInterval(loadFromSheet, syncInterval); };
             if (sessionStorage.getItem(sessionKey) === 'active') showDashboard();
             document.getElementById('admin-login-form').addEventListener('submit', event => { event.preventDefault(); if (document.getElementById('admin-username').value === 'admin' && document.getElementById('admin-password').value === 'gunmotor2026') { sessionStorage.setItem(sessionKey, 'active'); document.getElementById('admin-login-message').classList.add('hidden'); showDashboard(); } else { const message = document.getElementById('admin-login-message'); message.textContent = 'Username atau password tidak sesuai.'; message.className = 'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-600'; } });
             document.getElementById('admin-logout').addEventListener('click', () => { sessionStorage.removeItem(sessionKey); dashboard.classList.add('hidden'); loginPanel.classList.remove('hidden'); });
-            document.getElementById('sparepart-form').addEventListener('submit', event => { event.preventDefault(); const data = { nama: document.getElementById('part-name').value.trim(), satuan: document.getElementById('part-unit').value.trim(), stok: Number(document.getElementById('part-stock').value), harga: Number(document.getElementById('part-price').value) }; if (editingId) { const part = parts.find(item => String(item.id) === editingId); Object.assign(part, data, { updatedAt: new Date().toISOString() }); saveParts(); renderParts(); scheduleSync(); resetForm(); toast('Data sparepart berhasil diperbarui.'); } else { addPart(data); resetForm(); toast('Data sparepart berhasil disimpan.'); } });
+            document.getElementById('sparepart-form').addEventListener('submit', event => { event.preventDefault(); const data = { nama: document.getElementById('part-name').value.trim(), stok: Number(document.getElementById('part-stock').value), satuan: document.getElementById('part-unit').value.trim(), harga: Number(document.getElementById('part-price').value) }; if (editingId) { const part = parts.find(item => String(item.id) === editingId); Object.assign(part, data, { updatedAt: new Date().toISOString() }); saveParts(); renderParts(); scheduleSync(); resetForm(); toast('Data sparepart berhasil diperbarui.'); } else { addPart(data); resetForm(); toast('Data sparepart berhasil disimpan.'); } });
             document.getElementById('cancel-edit').addEventListener('click', resetForm);
             document.getElementById('parts-table').addEventListener('click', event => { const editButton = event.target.closest('[data-edit]'); if (editButton) { const part = parts.find(item => String(item.id) === editButton.dataset.edit); if (part) startEdit(part); return; } const deleteButton = event.target.closest('[data-delete]'); if (!deleteButton || !confirm('Hapus data sparepart ini?')) return; parts = parts.filter(part => String(part.id) !== deleteButton.dataset.delete); saveParts(); renderParts(); scheduleSync(); });
-            document.getElementById('part-search').addEventListener('input', renderParts);
-            document.getElementById('spreadsheet-input').addEventListener('change', event => { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = loadEvent => { try { const workbook = XLSX.read(loadEvent.target.result, { type: 'array' }), sheet = workbook.Sheets[workbook.SheetNames[0]], rows = XLSX.utils.sheet_to_json(sheet, { defval: '' }); const imported = rows.map(row => ({ id: row.id || undefined, nama: row.nama, satuan: row.satuan, stok: Number(row.stok || 0), harga: Number(row.harga || 0), updatedAt: row.updatedAt || undefined })).filter(row => row.nama && row.satuan && row.harga > 0); imported.forEach(addPart); document.getElementById('import-status').textContent = `${imported.length} data berhasil diimport.`; toast(`${imported.length} data ditambahkan.`); } catch (error) { document.getElementById('import-status').textContent = 'File tidak dapat dibaca.'; } }; reader.readAsArrayBuffer(file); });
-            document.getElementById('download-template').addEventListener('click', () => { const sheet = XLSX.utils.json_to_sheet([{ id: '', nama: 'Kampas Rem Depan', satuan: 'pcs', harga: 350000, stok: 4, updatedAt: '' }], { header: ['id', 'nama', 'satuan', 'harga', 'stok', 'updatedAt'] }), workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, sheet, 'Sparepart'); XLSX.writeFile(workbook, 'template-harga-sparepart.xlsx'); });
+            document.getElementById('part-search').addEventListener('input', () => { currentPage = 1; renderParts(); });
+            document.getElementById('previous-page').addEventListener('click', () => { if (currentPage > 1) { currentPage -= 1; renderParts(); } });
+            document.getElementById('next-page').addEventListener('click', () => { currentPage += 1; renderParts(); });
+            document.getElementById('spreadsheet-input').addEventListener('change', event => { const hasFile = Boolean(event.target.files[0]); document.getElementById('import-data').disabled = !hasFile; document.getElementById('import-status').textContent = hasFile ? event.target.files[0].name : ''; });
+            document.getElementById('import-data').addEventListener('click', () => { const input = document.getElementById('spreadsheet-input'), file = input.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = loadEvent => { try { const workbook = XLSX.read(loadEvent.target.result, { type: 'array' }), sheet = workbook.Sheets[workbook.SheetNames[0]], rows = XLSX.utils.sheet_to_json(sheet, { defval: '' }); const imported = rows.map(row => ({ id: row.id || undefined, nama: row.nama, stok: Number(row.stok || 0), satuan: row.satuan, harga: Number(row.harga || 0), updatedAt: row.updatedAt || undefined })).filter(row => row.nama && row.satuan && row.harga > 0); imported.forEach(addPart); input.value = ''; document.getElementById('import-data').disabled = true; document.getElementById('import-status').textContent = ''; toast(`${imported.length} data berhasil diimport.`); } catch (error) { document.getElementById('import-status').textContent = 'File tidak dapat dibaca.'; toast('Data gagal diimport.'); } }; reader.readAsArrayBuffer(file); });
+            document.getElementById('download-template').addEventListener('click', () => { const sheet = XLSX.utils.json_to_sheet([{ nama: 'Kampas Rem Depan', stok: 4, satuan: 'pcs', harga: 350000 }], { header: ['nama', 'stok', 'satuan', 'harga'] }), workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, sheet, 'Sparepart'); XLSX.writeFile(workbook, 'template-harga-sparepart.xlsx'); });
             document.getElementById('sync-sheet').addEventListener('click', () => syncToSheet(true));
         })();
     </script>

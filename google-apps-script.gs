@@ -9,7 +9,7 @@ function doPost(request) {
 
   const rows = payload.data || [];
   sheet.clearContents();
-  sheet.appendRow(['id', 'nama', 'satuan', 'harga', 'stok', 'updatedAt']);
+  sheet.appendRow(['id', 'nama', 'stok', 'satuan', 'harga', 'updatedAt']);
   rows.forEach(item => sheet.appendRow([item.id, item.nama, item.satuan, item.harga, item.stok, item.updatedAt]));
   return ContentService.createTextOutput(JSON.stringify({ ok: true, count: rows.length })).setMimeType(ContentService.MimeType.JSON);
 }
