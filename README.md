@@ -7,7 +7,8 @@ Portal admin tersedia melalui menu **Admin** pada website dan dibuka di halaman 
 - Login demo: `admin`
 - Password demo: `gunmotor2026`
 - Data sementara disimpan di browser menggunakan `localStorage`.
-- Struktur data: `nama`, `satuan`, `harga`, dan `stok`.
+- Struktur data Google Sheet: `id`, `nama`, `stok`, `satuan`, `harga`, `updatedAt`.
+- ID baru dibuat dengan pola `SP00001`, `SP00002`, dan seterusnya. Waktu update memakai format `DD/MM/YY HH:MM WIB`.
 - Import hanya menerima `.xlsx` dengan struktur yang sama seperti tab Google Sheet `Sparepart`.
 - Data yang sudah diinput dapat diperbarui melalui tombol edit pada tabel.
 
