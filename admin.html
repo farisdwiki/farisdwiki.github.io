@@ -311,16 +311,16 @@
     <script>
         (() => {
             const loginPanel = document.getElementById('admin-login'), dashboard = document.getElementById('admin-dashboard');
-            const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbz_7VIEWpAFiI-qCV3w-nbGiPT4ouZ910tmsXHaFazkfD3j3WnEYy2V-dwfLPWsI6FY-A/exec', syncInterval = 5000, autoSyncDelay = 800;
+            const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbwvuwScAtH4Z_4yfP0wqA1LIWWZSpQVA62gLDSzhcrBuOo5c1DVHkAUqQAsZInYYWliMg/exec', syncInterval = 5000, autoSyncDelay = 800;
             let parts = JSON.parse(localStorage.getItem(storageKey) || '[]').map(part => ({ nama: part.nama, stok: Number(part.stok || 0), satuan: part.satuan || 'pcs', harga: Number(part.harga || 0), id: part.id, updatedAt: part.updatedAt }));
             let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, autoSyncTimer, pendingSyncs = [], syncInProgress = false, editingId = null, currentPage = 1, pendingDeleteId = null;
             const pageSize = 10;
             const formatPrice = value => `Rp ${Number(value || 0).toLocaleString('id-ID')}`;
             const formatUpdateTime = value => { if (!value) return 'Belum ada'; const date = parseUpdateTime(value); if (!date) return value; const timeParts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jakarta', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(date).reduce((result, part) => ({ ...result, [part.type]: part.value }), {}); return `${timeParts.day}/${timeParts.month}/${timeParts.year} ${timeParts.hour}:${timeParts.minute} WIB`; };
-            const parseUpdateTime = value => { if (!value) return null; if (value instanceof Date) return value; const formatted = String(value).match(/^(\d{2})\/(\d{2})\/(\d{2,4}) (\d{2}):(\d{2})(?:\s*WIB)?$/i); if (formatted) { const year = formatted[3].length === 2 ? 2000 + Number(formatted[3]) : Number(formatted[3]); return new Date(Date.UTC(year, Number(formatted[2]) - 1, Number(formatted[1]), Number(formatted[4]) - 7, Number(formatted[5]))); } const date = new Date(value); return Number.isNaN(date.getTime()) ? null : date; };
-            const getCurrentUpdateTime = () => formatUpdateTime(new Date());
+            const parseUpdateTime = value => { if (!value) return null; if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value; if (typeof value === 'number') { const date = new Date(Date.UTC(1899, 11, 30) + value * 86400000); return Number.isNaN(date.getTime()) ? null : date; } const formatted = String(value).match(/^(\d{2})\/(\d{2})\/(\d{2,4}) (\d{2}):(\d{2})(?:\s*WIB)?$/i); if (formatted) { const year = formatted[3].length === 2 ? 2000 + Number(formatted[3]) : Number(formatted[3]); return new Date(Date.UTC(year, Number(formatted[2]) - 1, Number(formatted[1]), Number(formatted[4]) - 7, Number(formatted[5]))); } const date = new Date(value); return Number.isNaN(date.getTime()) ? null : date; };
+            const getCurrentUpdateTime = () => new Date().toISOString();
             const getNextId = (offset = 0) => { const highest = parts.reduce((max, part) => { const rawId = String(part.id || ''); const number = Number(rawId.match(/^SP(\d+)$/i)?.[1] || (rawId.match(/^\d+$/) ? rawId : 0)); return Math.max(max, number); }, 0); return `SP${String(highest + offset + 1).padStart(5, '0')}`; };
-            const normalizePart = (part, offset = 0) => { const rawId = String(part.id || ''); const numericId = rawId.match(/^\d+$/) ? `SP${rawId.padStart(5, '0')}` : ''; return { ...part, id: rawId.match(/^SP\d{5}$/i) ? rawId.toUpperCase() : numericId || getNextId(offset), stok: Number(part.stok || 0), harga: Number(part.harga || 0), satuan: part.satuan || 'pcs', updatedAt: part.updatedAt ? formatUpdateTime(part.updatedAt) : getCurrentUpdateTime() }; };
+            const normalizePart = (part, offset = 0) => { const rawId = String(part.id || ''); const numericId = rawId.match(/^\d+$/) ? `SP${rawId.padStart(5, '0')}` : ''; const parsedDate = parseUpdateTime(part.updatedAt); return { ...part, id: rawId.match(/^SP\d{5}$/i) ? rawId.toUpperCase() : numericId || getNextId(offset), stok: Number(part.stok || 0), harga: Number(part.harga || 0), satuan: part.satuan || 'pcs', updatedAt: parsedDate ? parsedDate.toISOString() : getCurrentUpdateTime() }; };
             parts = parts.map((part, index) => normalizePart(part, index));
             const saveParts = () => localStorage.setItem(storageKey, JSON.stringify(parts));
             const duplicateKey = (name, unit) => `${String(name || '').trim().toLocaleLowerCase('id-ID')}|${String(unit || '').trim().toLocaleLowerCase('id-ID')}`;
@@ -350,7 +350,8 @@
                     const result = await response.json();
                     if (!result.ok) throw new Error(result.message);
                     if (result.revision && result.revision !== lastSheetRevision && !pendingSyncs.length && !syncInProgress) {
-                        parts = removeDuplicateParts((result.data || []).map((part, index) => normalizePart(part, index)));
+                        const localTimestamps = new Map(parts.map(part => [String(part.id), part.updatedAt]));
+                        parts = removeDuplicateParts((result.data || []).map((part, index) => normalizePart({ ...part, updatedAt: part.updatedAt || localTimestamps.get(String(part.id)) }, index)));
                         saveParts();
                         lastSheetRevision = result.revision;
                         localStorage.setItem('gunMotorSheetRevision', lastSheetRevision);
