@@ -311,7 +311,7 @@
     <script>
         (() => {
             const loginPanel = document.getElementById('admin-login'), dashboard = document.getElementById('admin-dashboard');
-            const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbyQw480IteDpkF4tKlprxUX2T5UusRrNKfGHOXh3g7xd_7VZsVO0GSQDwVh-p235hrY/exec', syncInterval = 30000;
+            const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbyQw480IteDpkF4tKlprxUX2T5UusRrNKfGHOXh3g7xd_7VZsVO0GSQDwVh-p235hrY/exec', syncInterval = 1000;
             let parts = JSON.parse(localStorage.getItem(storageKey) || '[]').map(part => ({ nama: part.nama, stok: Number(part.stok || 0), satuan: part.satuan || 'pcs', harga: Number(part.harga || 0), id: part.id, updatedAt: part.updatedAt }));
             let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, editingId = null, currentPage = 1, pendingDeleteId = null;
             const pageSize = 10;

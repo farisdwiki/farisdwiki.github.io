@@ -8,9 +8,50 @@ function doPost(request) {
   }
 
   const rows = payload.data || [];
-  sheet.clearContents();
-  sheet.appendRow(['id', 'nama', 'stok', 'satuan', 'harga', 'updatedAt']);
-  rows.forEach(item => sheet.appendRow([item.id, item.nama, item.stok, item.satuan, item.harga, item.updatedAt]));
+  const headers = ['id', 'nama', 'stok', 'satuan', 'harga', 'updatedAt'];
+  const lastRow = sheet.getLastRow();
+
+  if (lastRow === 0) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  } else {
+    const currentHeaders = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+    if (headers.some((header, index) => currentHeaders[index] !== header)) {
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    }
+  }
+
+  const existingRows = sheet.getLastRow() > 1
+    ? sheet.getRange(2, 1, sheet.getLastRow() - 1, headers.length).getValues()
+    : [];
+  const rowById = new Map();
+  existingRows.forEach((row, index) => {
+    if (row[0]) rowById.set(String(row[0]), index + 2);
+  });
+
+  const incomingIds = new Set();
+  const rowsToDelete = [];
+  existingRows.forEach((row, index) => {
+    if (!rows.some(item => String(item.id) === String(row[0]))) rowsToDelete.push(index + 2);
+  });
+
+  rows.forEach(item => {
+    const values = [[item.id, item.nama, item.stok, item.satuan, item.harga, item.updatedAt]];
+    const rowNumber = rowById.get(String(item.id));
+    incomingIds.add(String(item.id));
+
+    if (rowNumber) {
+      const currentValues = sheet.getRange(rowNumber, 1, 1, headers.length).getValues()[0];
+      if (JSON.stringify(currentValues) !== JSON.stringify(values[0])) {
+        sheet.getRange(rowNumber, 1, 1, headers.length).setValues(values);
+      }
+    } else {
+      const newRow = sheet.getLastRow() + 1;
+      sheet.getRange(newRow, 1, 1, headers.length).setValues(values);
+      rowById.set(String(item.id), newRow);
+    }
+  });
+
+  rowsToDelete.reverse().forEach(rowNumber => sheet.deleteRow(rowNumber));
   return ContentService.createTextOutput(JSON.stringify({ ok: true, count: rows.length })).setMimeType(ContentService.MimeType.JSON);
 }
 
