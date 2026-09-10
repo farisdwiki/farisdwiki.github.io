@@ -20,6 +20,23 @@
             background: #101827;
         }
 
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            transition: color 150ms ease;
+        }
+
+        .password-toggle:hover {
+            color: #1e3a8a;
+        }
+
         .admin-table th,
         .admin-table td {
             white-space: nowrap;
@@ -142,10 +159,16 @@
                             class="w-full rounded-lg border border-slate-200 px-4 py-3 outline-none focus:border-brand-navy"
                             placeholder="Masukkan username"></div>
                     <div><label for="admin-password"
-                            class="block text-sm font-semibold text-slate-700 mb-2">Password</label><input
-                            id="admin-password" type="password" required autocomplete="current-password"
-                            class="w-full rounded-lg border border-slate-200 px-4 py-3 outline-none focus:border-brand-navy"
-                            placeholder="Masukkan password"></div>
+                            class="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+                        <div class="password-wrapper">
+                            <input id="admin-password" type="password" required autocomplete="current-password"
+                                class="w-full rounded-lg border border-slate-200 px-4 py-3 pr-11 outline-none focus:border-brand-navy"
+                                placeholder="Masukkan password">
+                            <button type="button" id="admin-password-toggle" class="password-toggle" aria-label="Lihat password" title="Lihat password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
                     <p id="admin-login-message" class="hidden text-sm rounded-lg px-4 py-3"></p>
                     <button
                         class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold"><i
@@ -311,7 +334,7 @@
     <script>
         (() => {
             const loginPanel = document.getElementById('admin-login'), dashboard = document.getElementById('admin-dashboard');
-            const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbwvuwScAtH4Z_4yfP0wqA1LIWWZSpQVA62gLDSzhcrBuOo5c1DVHkAUqQAsZInYYWliMg/exec', syncInterval = 5000, autoSyncDelay = 800;
+            const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbwGGmIWpGq-J_NHK-4dvCQsOn4wut6X_U9Nf8h-o8R-QCLBrl4u1wpaW4Fzvi04D46QrA/exec', syncInterval = 5000, autoSyncDelay = 800;
             let parts = JSON.parse(localStorage.getItem(storageKey) || '[]').map(part => ({ nama: part.nama, stok: Number(part.stok || 0), satuan: part.satuan || 'pcs', harga: Number(part.harga || 0), id: part.id, updatedAt: part.updatedAt }));
             let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, autoSyncTimer, pendingSyncs = [], syncInProgress = false, editingId = null, currentPage = 1, pendingDeleteId = null;
             const pageSize = 10;
@@ -399,6 +422,17 @@
             const addPart = (data, sync = true) => { const normalized = normalizePart(data); if (parts.some(part => duplicateKey(part.nama, part.satuan) === duplicateKey(normalized.nama, normalized.satuan))) return false; parts.push(normalized); saveParts(); renderParts(); if (sync) scheduleSync('create', normalized); return true; };
             const showDashboard = () => { loginPanel.classList.add('hidden'); dashboard.classList.remove('hidden'); renderParts(); loadFromSheet(); setInterval(() => { runAutoSync(); if (!pendingSyncs.length && !syncInProgress) loadFromSheet(); }, syncInterval); };
             if (sessionStorage.getItem(sessionKey) === 'active') showDashboard();
+            const passwordInput = document.getElementById('admin-password');
+            const passwordToggle = document.getElementById('admin-password-toggle');
+            passwordToggle.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+                passwordToggle.setAttribute('aria-label', isPassword ? 'Sembunyikan password' : 'Lihat password');
+                passwordToggle.title = isPassword ? 'Sembunyikan password' : 'Lihat password';
+                const icon = passwordToggle.querySelector('i');
+                icon.classList.toggle('fa-eye', !isPassword);
+                icon.classList.toggle('fa-eye-slash', isPassword);
+            });
             document.getElementById('admin-login-form').addEventListener('submit', event => { event.preventDefault(); if (document.getElementById('admin-username').value === 'admin' && document.getElementById('admin-password').value === 'gunmotor2026') { sessionStorage.setItem(sessionKey, 'active'); document.getElementById('admin-login-message').classList.add('hidden'); showDashboard(); } else { const message = document.getElementById('admin-login-message'); message.textContent = 'Username atau password tidak sesuai.'; message.className = 'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-600'; } });
             document.getElementById('admin-logout').addEventListener('click', () => { sessionStorage.removeItem(sessionKey); dashboard.classList.add('hidden'); loginPanel.classList.remove('hidden'); });
             document.getElementById('sparepart-form').addEventListener('submit', event => { event.preventDefault(); const data = { nama: document.getElementById('part-name').value.trim(), stok: Number(document.getElementById('part-stock').value), satuan: document.getElementById('part-unit').value.trim(), harga: Number(document.getElementById('part-price').value) }; if (editingId) { const part = parts.find(item => String(item.id) === editingId); const duplicate = parts.some(item => String(item.id) !== editingId && duplicateKey(item.nama, item.satuan) === duplicateKey(data.nama, data.satuan)); if (duplicate) { toast('Nama dan satuan tersebut sudah ada. Data tidak diperbarui.'); return; } Object.assign(part, data, { updatedAt: getCurrentUpdateTime() }); saveParts(); renderParts(); scheduleSync('update', part); resetForm(); toast('Data sparepart berhasil diperbarui.'); } else if (addPart(data)) { resetForm(); toast('Data sparepart berhasil disimpan.'); } else { toast('Nama dan satuan tersebut sudah ada. Data tidak ditambahkan.'); } });

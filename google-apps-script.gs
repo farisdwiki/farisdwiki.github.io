@@ -1,6 +1,5 @@
 const SHEET_NAME = 'Sparepart';
 const HEADERS = ['id', 'nama', 'stok', 'satuan', 'harga', 'updatedAt'];
-const DATE_FORMAT = 'dd/MM/yyyy HH:mm';
 
 function jsonResponse(body) {
   return ContentService.createTextOutput(JSON.stringify(body))
@@ -24,14 +23,15 @@ function prepareSheet(sheet) {
   } else {
     const width = Math.max(sheet.getLastColumn(), HEADERS.length);
     const currentHeaders = sheet.getRange(1, 1, 1, width).getValues()[0].map(normalizeHeader);
-    const hasExpectedHeaders = HEADERS.every((header, index) => currentHeaders[index] === header);
+    const expectedHeadersNormalized = HEADERS.map(normalizeHeader);
+    const hasExpectedHeaders = expectedHeadersNormalized.every((header, index) => currentHeaders[index] === header);
 
     if (!hasExpectedHeaders || width !== HEADERS.length) {
       const oldRows = sheet.getLastRow() > 1
         ? sheet.getRange(2, 1, sheet.getLastRow() - 1, width).getValues()
         : [];
       const indexes = new Map(currentHeaders.map((header, index) => [header, index]));
-      const migratedRows = oldRows.map(row => HEADERS.map(header => {
+      const migratedRows = oldRows.map(row => expectedHeadersNormalized.map(header => {
         const index = indexes.get(header);
         return index === undefined ? '' : row[index];
       }));
@@ -43,15 +43,37 @@ function prepareSheet(sheet) {
       }
     }
   }
-
-  if (sheet.getMaxRows() > 1) {
-    sheet.getRange(2, 6, sheet.getMaxRows() - 1, 1).setNumberFormat(DATE_FORMAT);
-  }
 }
+  // Formatting removed as we now write strings directly.
 
 function parseDate(value) {
   if (value instanceof Date && !isNaN(value.getTime())) return value;
   const text = String(value || '').trim();
+  if (!text) return null;
+
+  // Handle ISO 8601 (from website toISOString)
+  const isoMatch = text.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(Z|([+\-])(\d{2}):?(\d{2}))?$/i);
+  if (isoMatch) {
+    const year = Number(isoMatch[1]);
+    const month = Number(isoMatch[2]) - 1;
+    const day = Number(isoMatch[3]);
+    let hour = Number(isoMatch[4]);
+    let minute = Number(isoMatch[5]);
+    const second = Number(isoMatch[6]);
+    const millisecond = isoMatch[7] ? Number(isoMatch[7].substring(0, 3).padEnd(3, '0')) : 0;
+    
+    let offsetMs = 0;
+    if (isoMatch[8] && isoMatch[8].toUpperCase() !== 'Z') {
+      const sign = isoMatch[9] === '-' ? -1 : 1;
+      const offsetHours = Number(isoMatch[10]);
+      const offsetMinutes = Number(isoMatch[11] || 0);
+      offsetMs = sign * ((offsetHours * 60) + offsetMinutes) * 60000;
+    }
+    
+    const parsed = new Date(Date.UTC(year, month, day, hour, minute, second, millisecond) - offsetMs);
+    if (!isNaN(parsed.getTime())) return parsed;
+  }
+
   const match = text.match(/^(\d{2})\/(\d{2})\/(\d{2,4})[ T](\d{2}):(\d{2})(?::(\d{2}))?(?:\s*WIB)?$/i);
   if (match) {
     const year = match[3].length === 2 ? 2000 + Number(match[3]) : Number(match[3]);
@@ -65,15 +87,26 @@ function dateForItem(value) {
   return parseDate(value) || new Date();
 }
 
+function formatDateToWIB(date) {
+  if (!(date instanceof Date) || isNaN(date.getTime())) return '';
+  const wibTime = date.getTime() + (7 * 60 * 60 * 1000);
+  const wibDate = new Date(wibTime);
+  const pad = n => String(n).padStart(2, '0');
+  return `${pad(wibDate.getUTCDate())}/${pad(wibDate.getUTCMonth() + 1)}/${wibDate.getUTCFullYear()} ${pad(wibDate.getUTCHours())}:${pad(wibDate.getUTCMinutes())} WIB`;
+}
+
 function normalizeItem(item, fallbackDate) {
   const source = item || {};
+  const dateObj = dateForItem(source.updatedAt || fallbackDate);
+  const dateString = formatDateToWIB(dateObj);
+  
   return [
     String(source.id || '').trim(),
     String(source.nama || '').trim(),
     Number(source.stok || 0),
     String(source.satuan || 'pcs').trim() || 'pcs',
     Number(source.harga || 0),
-    dateForItem(source.updatedAt || fallbackDate)
+    dateString
   ];
 }
 
@@ -86,7 +119,6 @@ function findRow(sheet, id) {
 
 function writeRow(sheet, rowNumber, values) {
   sheet.getRange(rowNumber, 1, 1, HEADERS.length).setValues([values]);
-  sheet.getRange(rowNumber, 6).setNumberFormat(DATE_FORMAT);
 }
 
 function handleSingle(sheet, payload) {
@@ -103,7 +135,7 @@ function handleSingle(sheet, payload) {
   const values = normalizeItem(item, new Date());
   writeRow(sheet, rowNumber || sheet.getLastRow() + 1, values);
   SpreadsheetApp.flush();
-  return jsonResponse({ ok: true, operation: payload.operation || 'upsert', updatedAt: values[5].toISOString() });
+  return jsonResponse({ ok: true, operation: payload.operation || 'upsert', updatedAt: values[5] });
 }
 
 function handleSync(sheet, payload) {
