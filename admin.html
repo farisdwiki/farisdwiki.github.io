@@ -94,6 +94,50 @@
             background: #64748b;
         }
 
+        .parts-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            background: #ffffff;
+        }
+
+        .parts-search {
+            width: min(100%, 20rem);
+            min-height: 2.5rem;
+        }
+
+        .rows-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            color: #64748b;
+        }
+
+        .rows-control select {
+            min-height: 2.5rem;
+            background: #ffffff;
+        }
+
+        @media (max-width: 640px) {
+            .parts-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .parts-search {
+                width: 100%;
+            }
+
+            .rows-control {
+                justify-content: flex-end;
+            }
+        }
+
         #delete-modal {
             background: rgba(15, 23, 42, 0.62);
             backdrop-filter: blur(4px);
@@ -198,26 +242,33 @@
                         terpusat dan pantau perubahan data dari satu tempat.</p>
                 </div>
                 <form id="admin-login-form" class="p-8 space-y-5">
-                    <div><label for="admin-username"
-                            class="block text-sm font-semibold text-slate-700 mb-2">Username</label><input
-                            id="admin-username" required autocomplete="username"
+                    <div>
+                        <label for="admin-username" class="block text-sm font-semibold text-slate-700 mb-2">
+                            Username
+                        </label>
+                        <input id="admin-username" required autocomplete="username"
                             class="w-full rounded-lg border border-slate-200 px-4 py-3 outline-none focus:border-brand-navy"
-                            placeholder="Masukkan username"></div>
-                    <div><label for="admin-password"
-                            class="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+                            placeholder="Masukkan username">
+                    </div>
+                    <div>
+                        <label for="admin-password" class="block text-sm font-semibold text-slate-700 mb-2">
+                            Password
+                        </label>
                         <div class="password-wrapper">
                             <input id="admin-password" type="password" required autocomplete="current-password"
                                 class="w-full rounded-lg border border-slate-200 px-4 py-3 pr-11 outline-none focus:border-brand-navy"
                                 placeholder="Masukkan password">
-                            <button type="button" id="admin-password-toggle" class="password-toggle" aria-label="Lihat password" title="Lihat password">
+                            <button type="button" id="admin-password-toggle" class="password-toggle"
+                                aria-label="Lihat password" title="Lihat password">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
                         </div>
                     </div>
                     <p id="admin-login-message" class="hidden text-sm rounded-lg px-4 py-3"></p>
-                    <button
-                        class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold"><i
-                            class="fa-solid fa-arrow-right-to-bracket mr-2"></i>Masuk ke Dashboard</button>
+                    <button class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold">
+                        <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i>
+                        Masuk ke Dashboard
+                    </button>
                     <p class="text-xs text-slate-400 text-center">Akses ini khusus pengelola Gun Motor.</p>
                 </form>
             </div>
@@ -231,9 +282,12 @@
                             Harga</p>
                         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Dashboard Sparepart</h2>
                         <p class="text-slate-500 mt-2">Kelola data sparepart Gun Motor.</p>
-                    </div><button id="admin-logout"
-                        class="self-start md:self-auto border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 rounded-lg px-4 py-2 font-semibold"><i
-                            class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Keluar</button>
+                    </div>
+                    <button id="admin-logout"
+                        class="self-start md:self-auto border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 rounded-lg px-4 py-2 font-semibold">
+                        <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
+                        Keluar
+                    </button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <div class="admin-kpi rounded-xl p-5 text-white">
@@ -245,21 +299,27 @@
                         <p id="kpi-updated" class="text-3xl font-bold mt-3">Belum ada</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-8">
-                    <div class="xl:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <div class="flex items-center justify-between mb-5">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-5 lg:gap-6 mb-8">
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6">
+                        <div class="flex items-start justify-between gap-4 mb-5">
                             <div>
                                 <h3 class="font-bold text-lg text-slate-900">Import Data</h3>
                                 <p class="text-sm text-slate-500">Unggah file `.xlsx` sesuai template yang tersedia.</p>
-                                <button id="download-template" type="button" class="text-sm font-semibold text-brand-navy"><i
-                                    class="fa-solid fa-download mr-2"></i>Unduh Template XLSX</button>
-                            </div><i class="fa-solid fa-file-import text-emerald-600 text-xl"></i>
+                                <button id="download-template" type="button" class="text-sm font-semibold text-brand-navy">
+                                    <i class="fa-solid fa-download mr-2"></i>
+                                    Unduh Template XLSX
+                                </button>
+                            </div>
+                            <i class="fa-solid fa-file-import text-emerald-600 text-xl"></i>
                         </div>
-                        <div id="upload-zone" class="upload-zone border-2 border-dashed border-slate-200 rounded-xl p-8 text-center">
+                        <div id="upload-zone"
+                            class="upload-zone border-2 border-dashed border-slate-200 rounded-xl p-5 sm:p-6 min-h-[156px] flex items-center justify-center text-center">
                             <input id="spreadsheet-input" type="file" accept=".xlsx" class="hidden">
                             <div id="upload-placeholder" class="block">
                                 <i class="fa-solid fa-file-excel text-4xl text-emerald-600 mb-3"></i>
-                                <p class="font-semibold text-slate-700">Tarik file ke sini atau Klik untuk memilih dari perangkat</p>
+                                <p class="font-semibold text-slate-700">
+                                    Tarik file ke sini atau Klik untuk memilih dari perangkat
+                                </p>
                                 <p class="text-xs text-slate-400 mt-1">Struktur: nama, stok, satuan, harga.</p>
                             </div>
                             <div id="upload-selected" class="upload-selected hidden">
@@ -270,7 +330,8 @@
                                         <p class="text-xs text-slate-400">File .xlsx siap diimport</p>
                                     </div>
                                 </div>
-                                <button id="clear-file" type="button" class="upload-clear" aria-label="Hapus file" title="Hapus file">
+                                <button id="clear-file" type="button" class="upload-clear" aria-label="Hapus file"
+                                    title="Hapus file">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </div>
@@ -283,42 +344,58 @@
                             <span id="import-status" class="text-sm text-slate-500"></span>
                         </div>
                     </div>
-                    <div class="xl:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <div class="flex items-center justify-between mb-5">
+                    <div class="lg:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6">
+                        <div class="flex items-start justify-between gap-4 mb-5">
                             <div>
                                 <h3 class="font-bold text-lg text-slate-900">Input Data</h3>
                                 <p class="text-sm text-slate-500">Tambah item sparepart.</p>
-                            </div><i class="fa-solid fa-pen-to-square text-brand-navy text-xl"></i>
+                            </div>
+                            <i class="fa-solid fa-pen-to-square text-brand-navy text-xl"></i>
                         </div>
                         <form id="sparepart-form" class="space-y-4">
-                            <div><label class="block text-sm font-semibold text-slate-700 mb-1" for="part-name">Nama
-                                    Sparepart</label><input id="part-name" required
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1" for="part-name">
+                                    Nama Sparepart
+                                </label>
+                                <input id="part-name" required
                                     class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
-                                    placeholder="Contoh: Kampas Rem Depan"></div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div><label class="block text-sm font-semibold text-slate-700 mb-1"
-                                        for="part-stock">Stok</label><input id="part-stock" type="number" min="0"
-                                        value="0"
+                                    placeholder="Contoh: Kampas Rem Depan">
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-3">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1" for="part-stock">
+                                        Stok
+                                    </label>
+                                    <input id="part-stock" type="number" min="0" value="0"
                                         class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy">
                                 </div>
-                                <div><label class="block text-sm font-semibold text-slate-700 mb-1"
-                                        for="part-unit">Satuan</label>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1" for="part-unit">
+                                        Satuan
+                                    </label>
                                     <input id="part-unit" list="part-unit-options" required
                                         class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
                                         placeholder="Pilih atau ketik satuan">
                                     <datalist id="part-unit-options"></datalist>
                                 </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1" for="part-price">
+                                        Harga (Rp)
+                                    </label>
+                                    <input id="part-price" type="number" min="0" step="500" required
+                                        class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
+                                        placeholder="350000">
+                                </div>
                             </div>
-                            <div><label class="block text-sm font-semibold text-slate-700 mb-1" for="part-price">Harga
-                                    (Rp)</label><input id="part-price" type="number" min="0" step="500" required
-                                    class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
-                                    placeholder="350000"></div><button
-                                class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold"><i
-                                    id="form-submit-icon" class="fa-solid fa-plus mr-2"></i><span
-                                    id="form-submit-label">Tambah Data</span></button>
+                            <button
+                                class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold">
+                                <i id="form-submit-icon" class="fa-solid fa-plus mr-2"></i>
+                                <span id="form-submit-label">Tambah Data</span>
+                            </button>
                             <button id="cancel-edit" type="button"
-                                class="hidden w-full border border-slate-300 text-slate-600 rounded-lg py-3 font-semibold">Batal
-                                Edit</button>
+                                class="hidden w-full border border-slate-300 text-slate-600 rounded-lg py-3 font-semibold">
+                                Batal Edit
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -330,15 +407,30 @@
                             <p class="text-sm text-slate-500">Data tersimpan lokal dan siap disinkronkan ke Google
                                 Sheet.</p>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3"><input id="part-search"
-                                class="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-navy"
-                                placeholder="Cari sparepart..."><button id="sync-sheet"
+                        <div class="text-left lg:text-right">
+                            <button id="sync-sheet"
                                 class="rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 text-sm font-bold"><i
-                                    class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync Sheet</button></div>
-                        <p id="sheet-sync-status" class="mt-3 text-xs text-slate-400">Menghubungkan ke Google Sheet...
-                        </p>
+                                class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync Sheet</button>
+                            <p id="sheet-sync-status" class="mt-2 text-xs text-slate-400">Menghubungkan ke Google Sheet...
+                            </p>
+                        </div>
                     </div>
-                    <div class="table-scroll max-h-[520px] overflow-auto">
+                    <div class="parts-toolbar">
+                        <input id="part-search"
+                            class="parts-search rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none transition focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
+                            placeholder="Cari sparepart...">
+                        <div class="rows-control text-sm">
+                            <label for="rows-per-page" class="font-medium">Tampilkan</label>
+                            <select id="rows-per-page" class="rounded-lg border border-slate-200 px-2 py-1.5 text-sm outline-none transition focus:border-brand-navy focus:ring-2 focus:ring-blue-100">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50" selected>50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>baris</span>
+                        </div>
+                    </div>
+                    <div class="table-scroll max-h-[600px] overflow-auto">
                         <div>
                             <table class="admin-table w-full text-left text-sm">
                             <thead class="bg-slate-50 text-slate-500 uppercase text-xs">
@@ -398,7 +490,8 @@
             const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbwGGmIWpGq-J_NHK-4dvCQsOn4wut6X_U9Nf8h-o8R-QCLBrl4u1wpaW4Fzvi04D46QrA/exec', syncInterval = 5000, autoSyncDelay = 800;
             let parts = JSON.parse(localStorage.getItem(storageKey) || '[]').map(part => ({ nama: part.nama, stok: Number(part.stok || 0), satuan: part.satuan || 'pcs', harga: Number(part.harga || 0), id: part.id, updatedAt: part.updatedAt }));
             let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, autoSyncTimer, pendingSyncs = [], syncInProgress = false, editingId = null, currentPage = 1, pendingDeleteId = null, sortState = { key: 'nama', direction: 'asc' };
-            const pageSize = 10;
+            let pageSize = Number(localStorage.getItem('gunMotorRowsPerPage') || '50');
+            if (![10, 25, 50, 100].includes(pageSize)) pageSize = 50;
             const formatPrice = value => `Rp ${Number(value || 0).toLocaleString('id-ID')}`;
             const formatUpdateTime = value => { if (!value) return 'Belum ada'; const date = parseUpdateTime(value); if (!date) return value; const timeParts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jakarta', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(date).reduce((result, part) => ({ ...result, [part.type]: part.value }), {}); return `${timeParts.day}/${timeParts.month}/${timeParts.year} ${timeParts.hour}:${timeParts.minute} WIB`; };
             const parseUpdateTime = value => { if (!value) return null; if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value; if (typeof value === 'number') { const date = new Date(Date.UTC(1899, 11, 30) + value * 86400000); return Number.isNaN(date.getTime()) ? null : date; } const formatted = String(value).match(/^(\d{2})\/(\d{2})\/(\d{2,4}) (\d{2}):(\d{2})(?:\s*WIB)?$/i); if (formatted) { const year = formatted[3].length === 2 ? 2000 + Number(formatted[3]) : Number(formatted[3]); return new Date(Date.UTC(year, Number(formatted[2]) - 1, Number(formatted[1]), Number(formatted[4]) - 7, Number(formatted[5]))); } const date = new Date(value); return Number.isNaN(date.getTime()) ? null : date; };
@@ -569,6 +662,15 @@
                 document.getElementById('pagination').classList.toggle('hidden', visible.length <= pageSize); document.getElementById('pagination-info').textContent = `Halaman ${currentPage} dari ${totalPages} (${visible.length} data)`; document.getElementById('previous-page').disabled = currentPage === 1; document.getElementById('next-page').disabled = currentPage === totalPages;
                 updateSortIcons();
             };
+            const rowsPerPageInput = document.getElementById('rows-per-page');
+            rowsPerPageInput.value = String(pageSize);
+            rowsPerPageInput.addEventListener('change', event => {
+                const nextPageSize = Number(event.target.value) || 50;
+                pageSize = [10, 25, 50, 100].includes(nextPageSize) ? nextPageSize : 50;
+                localStorage.setItem('gunMotorRowsPerPage', String(pageSize));
+                currentPage = 1;
+                renderParts();
+            });
             const addPart = (data, sync = true) => {
                 const normalized = normalizePart(data);
                 const exactDuplicate = parts.find(part => exactDuplicateKey(part) === exactDuplicateKey(normalized));
