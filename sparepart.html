@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Sparepart - Gun Motor</title>
+    <meta name="description" content="Daftar harga dan ketersediaan sparepart Gun Motor Madiun.">
+    <link rel="icon" type="image/png" href="images/Gun_Motor_final.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: { brand: { navy: '#1E3A8A', navyHover: '#1E40AF', dark: '#111827' } }
+                }
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .catalog-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .catalog-table th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: #f8fafc;
+        }
+
+        .catalog-table th,
+        .catalog-table td {
+            white-space: nowrap;
+        }
+
+        .catalog-table tbody tr {
+            transition: background-color 160ms ease;
+        }
+
+        .catalog-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .table-scroll {
+            scrollbar-color: #94a3b8 #f1f5f9;
+            scrollbar-width: thin;
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            width: 9px;
+            height: 9px;
+        }
+
+        .table-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border: 2px solid #f1f5f9;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-100 text-slate-800">
+    <header class="bg-brand-dark text-white">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="images/Gun_Motor_final.png" alt="Logo Gun Motor" class="h-11 w-auto rounded-md object-contain">
+                <span class="text-lg font-bold tracking-tight sm:text-xl">GUN <span class="text-blue-400">MOTOR</span></span>
+            </a>
+            <div class="text-right">
+                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Katalog Harga</p>
+                <h1 class="text-lg font-bold sm:text-xl">Daftar Harga Sparepart</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+        <section class="mb-6">
+            <p class="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-brand-navy">Daftar Harga</p>
+            <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">Sparepart Gun Motor</h2>
+                    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">Cari nama sparepart dan cek harga serta stok terbaru yang tersedia.</p>
+                </div>
+                <p id="data-status" class="text-sm text-slate-500">Memuat data...</p>
+            </div>
+        </section>
+
+        <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div class="flex flex-col gap-3 border-b border-slate-100 bg-white p-4 sm:p-5 md:flex-row md:items-center md:justify-between">
+                <label class="relative block w-full md:max-w-sm">
+                    <span class="sr-only">Cari sparepart</span>
+                    <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input id="part-search" type="search" placeholder="Cari sparepart..." class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-brand-navy focus:ring-2 focus:ring-blue-100">
+                </label>
+                <div class="flex items-center justify-between gap-3 text-sm text-slate-500 sm:justify-end">
+                    <label for="rows-per-page" class="font-medium">Tampilkan</label>
+                    <select id="rows-per-page" class="rounded-lg border border-slate-200 bg-white px-2 py-2 outline-none transition focus:border-brand-navy focus:ring-2 focus:ring-blue-100">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span>baris</span>
+                </div>
+            </div>
+
+            <div class="table-scroll max-h-[620px] overflow-auto">
+                <table class="catalog-table w-full text-left text-sm">
+                    <thead class="text-xs uppercase tracking-wider text-slate-500">
+                        <tr>
+                            <th class="border-b border-slate-200 px-4 py-4 text-center sm:px-6">No</th>
+                            <th class="cursor-pointer border-b border-slate-200 px-4 py-4 sm:px-6" data-sort="nama">Nama <i class="fa-solid fa-sort ml-1 text-slate-400" data-sort-icon="nama"></i></th>
+                            <th class="cursor-pointer border-b border-slate-200 px-4 py-4 text-right sm:px-6" data-sort="stok">Stok <i class="fa-solid fa-sort ml-1 text-slate-400" data-sort-icon="stok"></i></th>
+                            <th class="cursor-pointer border-b border-slate-200 px-4 py-4 sm:px-6" data-sort="satuan">Satuan <i class="fa-solid fa-sort ml-1 text-slate-400" data-sort-icon="satuan"></i></th>
+                            <th class="cursor-pointer border-b border-slate-200 px-4 py-4 text-right sm:px-6" data-sort="harga">Harga <i class="fa-solid fa-sort ml-1 text-slate-400" data-sort-icon="harga"></i></th>
+                            <th class="cursor-pointer border-b border-slate-200 px-4 py-4 sm:px-6" data-sort="updatedAt">Update <i class="fa-solid fa-sort ml-1 text-slate-400" data-sort-icon="updatedAt"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="parts-table" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+
+            <div id="empty-state" class="hidden px-6 py-16 text-center text-slate-400">
+                <i class="fa-solid fa-box-open mb-3 text-4xl"></i>
+                <p>Tidak ada data sparepart yang sesuai.</p>
+            </div>
+
+            <div class="flex flex-col gap-3 border-t border-slate-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                <p id="pagination-info" class="text-sm text-slate-500"></p>
+                <div class="flex gap-2">
+                    <button id="previous-page" type="button" class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">Sebelumnya</button>
+                    <button id="next-page" type="button" class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">Berikutnya</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white py-6 text-center text-sm text-slate-500">
+        <p>&copy; 2026 Gun Motor. Daftar harga dapat berubah sewaktu-waktu.</p>
+    </footer>
+
+    <script>
+        (() => {
+            const storageKey = 'gunMotorSpareparts';
+            const endpoint = 'https://script.google.com/macros/s/AKfycbwGGmIWpGq-J_NHK-4dvCQsOn4wut6X_U9Nf8h-o8R-QCLBrl4u1wpaW4Fzvi04D46QrA/exec';
+            const allowedPageSizes = [10, 25, 50, 100];
+            let parts = [];
+            let currentPage = 1;
+            let pageSize = 10;
+            let sortState = { key: 'nama', direction: 'asc' };
+
+            const formatPrice = value => `Rp ${Number(value || 0).toLocaleString('id-ID')}`;
+            const parseDate = value => {
+                if (!value) return null;
+                if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value;
+                if (typeof value === 'number') {
+                    const date = new Date(Date.UTC(1899, 11, 30) + value * 86400000);
+                    return Number.isNaN(date.getTime()) ? null : date;
+                }
+                const text = String(value).trim();
+                const localFormat = text.match(/^(\d{2})\/(\d{2})\/(\d{2,4})\s+(\d{2}):(\d{2})(?::(\d{2}))?(?:\s*WIB)?$/i);
+                if (localFormat) {
+                    const year = localFormat[3].length === 2 ? 2000 + Number(localFormat[3]) : Number(localFormat[3]);
+                    return new Date(Date.UTC(year, Number(localFormat[2]) - 1, Number(localFormat[1]), Number(localFormat[4]) - 7, Number(localFormat[5]), Number(localFormat[6] || 0)));
+                }
+                const date = new Date(text);
+                return Number.isNaN(date.getTime()) ? null : date;
+            };
+            const formatDate = value => {
+                const date = parseDate(value);
+                if (!date) return '-';
+                return new Intl.DateTimeFormat('id-ID', {
+                    timeZone: 'Asia/Jakarta',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }).format(date).replace(',', '') + ' WIB';
+            };
+            const normalizePart = part => ({
+                nama: String(part.nama || '').trim(),
+                stok: Number(part.stok || 0),
+                satuan: String(part.satuan || '-').trim().toUpperCase(),
+                harga: Number(part.harga || 0),
+                updatedAt: part.updatedAt || ''
+            });
+            const uniqueParts = items => {
+                const seen = new Set();
+                return items.map(normalizePart).filter(part => {
+                    const key = `${part.nama.toLocaleLowerCase('id-ID')}|${part.stok}|${part.satuan}|${part.harga}`;
+                    if (!part.nama || seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+            };
+            const updateStatus = message => { document.getElementById('data-status').textContent = message; };
+            const updateSortIcons = () => {
+                document.querySelectorAll('[data-sort-icon]').forEach(icon => {
+                    icon.className = `fa-solid ${sortState.key === icon.dataset.sortIcon ? (sortState.direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'} ml-1 text-slate-400`;
+                });
+            };
+            const sortedParts = items => [...items].sort((left, right) => {
+                let comparison;
+                if (sortState.key === 'nama' || sortState.key === 'satuan') {
+                    comparison = left[sortState.key].localeCompare(right[sortState.key], 'id');
+                } else if (sortState.key === 'updatedAt') {
+                    comparison = (parseDate(left.updatedAt)?.getTime() || 0) - (parseDate(right.updatedAt)?.getTime() || 0);
+                } else {
+                    comparison = left[sortState.key] - right[sortState.key];
+                }
+                return sortState.direction === 'asc' ? comparison : -comparison;
+            });
+            const render = () => {
+                const query = document.getElementById('part-search').value.toLocaleLowerCase('id-ID');
+                const visible = sortedParts(parts.filter(part => `${part.nama} ${part.satuan}`.toLocaleLowerCase('id-ID').includes(query)));
+                const totalPages = Math.max(1, Math.ceil(visible.length / pageSize));
+                currentPage = Math.min(currentPage, totalPages);
+                const start = (currentPage - 1) * pageSize;
+                const pageParts = visible.slice(start, start + pageSize);
+                document.getElementById('parts-table').innerHTML = pageParts.map((part, index) => `<tr><td class="px-4 py-4 text-center text-slate-400 sm:px-6">${start + index + 1}</td><td class="px-4 py-4 font-semibold text-slate-800 sm:px-6">${part.nama}</td><td class="px-4 py-4 text-right text-slate-600 sm:px-6">${part.stok}</td><td class="px-4 py-4 text-slate-500 sm:px-6">${part.satuan}</td><td class="px-4 py-4 text-right font-bold text-slate-800 sm:px-6">${formatPrice(part.harga)}</td><td class="px-4 py-4 text-slate-500 sm:px-6">${formatDate(part.updatedAt)}</td></tr>`).join('');
+                document.getElementById('empty-state').classList.toggle('hidden', visible.length > 0);
+                document.getElementById('pagination-info').textContent = `Halaman ${currentPage} dari ${totalPages} (${visible.length} data)`;
+                document.getElementById('previous-page').disabled = currentPage === 1;
+                document.getElementById('next-page').disabled = currentPage === totalPages;
+                updateSortIcons();
+            };
+            const loadData = async () => {
+                const cached = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                parts = uniqueParts(cached);
+                render();
+                updateStatus(parts.length ? `${parts.length} data tersimpan` : 'Memuat data...');
+                try {
+                    const response = await fetch(`${endpoint}?t=${Date.now()}`);
+                    const result = await response.json();
+                    if (!result.ok) throw new Error(result.message || 'Gagal memuat data');
+                    parts = uniqueParts(result.data || []);
+                    localStorage.setItem(storageKey, JSON.stringify(parts));
+                    updateStatus(`${parts.length} data terbaru`);
+                    render();
+                } catch (error) {
+                    updateStatus(parts.length ? `${parts.length} data dari cache lokal` : 'Data belum dapat dimuat');
+                }
+            };
+
+            document.getElementById('part-search').addEventListener('input', () => {
+                currentPage = 1;
+                render();
+            });
+            document.getElementById('rows-per-page').addEventListener('change', event => {
+                const value = Number(event.target.value);
+                pageSize = allowedPageSizes.includes(value) ? value : 10;
+                currentPage = 1;
+                render();
+            });
+            document.querySelectorAll('[data-sort]').forEach(header => header.addEventListener('click', () => {
+                const key = header.dataset.sort;
+                sortState = sortState.key === key ? { key, direction: sortState.direction === 'asc' ? 'desc' : 'asc' } : { key, direction: 'asc' };
+                render();
+            }));
+            document.getElementById('previous-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage -= 1;
+                    render();
+                }
+            });
+            document.getElementById('next-page').addEventListener('click', () => {
+                const query = document.getElementById('part-search').value.toLocaleLowerCase('id-ID');
+                const totalPages = Math.max(1, Math.ceil(parts.filter(part => `${part.nama} ${part.satuan}`.toLocaleLowerCase('id-ID').includes(query)).length / pageSize));
+                if (currentPage < totalPages) {
+                    currentPage += 1;
+                    render();
+                }
+            });
+            loadData();
+        })();
+    </script>
+</body>
+
+</html>
