@@ -130,6 +130,51 @@
         .admin-kpi:nth-child(4) {
             background: linear-gradient(135deg, #581c87, #7e22ce);
         }
+
+        .upload-zone {
+            position: relative;
+            transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+            cursor: pointer;
+        }
+
+        .upload-zone:hover {
+            border-color: #1e3a8a;
+            background: #f8fafc;
+        }
+
+        .upload-zone.dragover {
+            border-color: #1e3a8a;
+            background: #eff6ff;
+            transform: translateY(-1px);
+        }
+
+        .upload-selected {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .upload-clear {
+            flex-shrink: 0;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 9999px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            color: #475569;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 150ms ease;
+        }
+
+        .upload-clear:hover {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
     </style>
 </head>
 
@@ -210,12 +255,25 @@
                                     class="fa-solid fa-download mr-2"></i>Unduh Template XLSX</button>
                             </div><i class="fa-solid fa-file-import text-emerald-600 text-xl"></i>
                         </div>
-                        <div class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-brand-navy transition-colors">
-                            <i class="fa-solid fa-file-excel text-4xl text-emerald-600 mb-3"></i>
-                            <p class="font-semibold text-slate-700">Tarik file ke sini atau pilih dari perangkat</p>
-                            <p class="text-xs text-slate-400 mt-1">Struktur: nama, stok, satuan, harga.</p>
-                            <input id="spreadsheet-input" type="file" accept=".xlsx"
-                                class="block w-full mt-5 text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:font-semibold file:text-slate-700">
+                        <div id="upload-zone" class="upload-zone border-2 border-dashed border-slate-200 rounded-xl p-8 text-center">
+                            <input id="spreadsheet-input" type="file" accept=".xlsx" class="hidden">
+                            <div id="upload-placeholder" class="block">
+                                <i class="fa-solid fa-file-excel text-4xl text-emerald-600 mb-3"></i>
+                                <p class="font-semibold text-slate-700">Tarik file ke sini atau Klik untuk memilih dari perangkat</p>
+                                <p class="text-xs text-slate-400 mt-1">Struktur: nama, stok, satuan, harga.</p>
+                            </div>
+                            <div id="upload-selected" class="upload-selected hidden">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i class="fa-solid fa-file-excel text-3xl text-emerald-600"></i>
+                                    <div class="min-w-0">
+                                        <p id="selected-file-name" class="font-semibold text-slate-700 truncate"></p>
+                                        <p class="text-xs text-slate-400">File .xlsx siap diimport</p>
+                                    </div>
+                                </div>
+                                <button id="clear-file" type="button" class="upload-clear" aria-label="Hapus file" title="Hapus file">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="mt-5 flex flex-wrap items-center gap-3">
                             <button id="import-data" type="button" disabled
@@ -244,12 +302,15 @@
                                         class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy">
                                 </div>
                                 <div><label class="block text-sm font-semibold text-slate-700 mb-1"
-                                        for="part-unit">Satuan</label><input id="part-unit" required
+                                        for="part-unit">Satuan</label>
+                                    <input id="part-unit" list="part-unit-options" required
                                         class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
-                                        placeholder="pcs"></div>
+                                        placeholder="Pilih atau ketik satuan">
+                                    <datalist id="part-unit-options"></datalist>
+                                </div>
                             </div>
                             <div><label class="block text-sm font-semibold text-slate-700 mb-1" for="part-price">Harga
-                                    (Rp)</label><input id="part-price" type="number" min="0" required
+                                    (Rp)</label><input id="part-price" type="number" min="0" step="500" required
                                     class="w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-brand-navy"
                                     placeholder="350000"></div><button
                                 class="w-full bg-brand-navy hover:bg-brand-navyHover text-white rounded-lg py-3 font-bold"><i
@@ -283,11 +344,11 @@
                             <thead class="bg-slate-50 text-slate-500 uppercase text-xs">
                                 <tr>
                                     <th class="px-6 py-4 text-center">No</th>
-                                    <th class="px-6 py-4">Nama</th>
-                                    <th class="px-6 py-4 text-right">Stok</th>
-                                    <th class="px-6 py-4">Satuan</th>
-                                    <th class="px-6 py-4 text-right">Harga</th>
-                                    <th class="px-6 py-4">Update</th>
+                                    <th class="px-6 py-4 cursor-pointer select-none" data-sort="nama"><span class="inline-flex items-center gap-1">Nama <i class="fa-solid fa-sort sort-icon" data-sort-icon="nama"></i></span></th>
+                                    <th class="px-6 py-4 text-right cursor-pointer select-none" data-sort="stok"><span class="inline-flex items-center justify-end gap-1 w-full">Stok <i class="fa-solid fa-sort sort-icon" data-sort-icon="stok"></i></span></th>
+                                    <th class="px-6 py-4 cursor-pointer select-none" data-sort="satuan"><span class="inline-flex items-center gap-1">Satuan <i class="fa-solid fa-sort sort-icon" data-sort-icon="satuan"></i></span></th>
+                                    <th class="px-6 py-4 text-right cursor-pointer select-none" data-sort="harga"><span class="inline-flex items-center justify-end gap-1 w-full">Harga <i class="fa-solid fa-sort sort-icon" data-sort-icon="harga"></i></span></th>
+                                    <th class="px-6 py-4 cursor-pointer select-none" data-sort="updatedAt"><span class="inline-flex items-center gap-1">Update <i class="fa-solid fa-sort sort-icon" data-sort-icon="updatedAt"></i></span></th>
                                     <th class="px-6 py-4 text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -336,7 +397,7 @@
             const loginPanel = document.getElementById('admin-login'), dashboard = document.getElementById('admin-dashboard');
             const storageKey = 'gunMotorSpareparts', sessionKey = 'gunMotorAdminSession', sheetEndpoint = 'https://script.google.com/macros/s/AKfycbwGGmIWpGq-J_NHK-4dvCQsOn4wut6X_U9Nf8h-o8R-QCLBrl4u1wpaW4Fzvi04D46QrA/exec', syncInterval = 5000, autoSyncDelay = 800;
             let parts = JSON.parse(localStorage.getItem(storageKey) || '[]').map(part => ({ nama: part.nama, stok: Number(part.stok || 0), satuan: part.satuan || 'pcs', harga: Number(part.harga || 0), id: part.id, updatedAt: part.updatedAt }));
-            let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, autoSyncTimer, pendingSyncs = [], syncInProgress = false, editingId = null, currentPage = 1, pendingDeleteId = null;
+            let lastSheetRevision = localStorage.getItem('gunMotorSheetRevision') || '', syncTimer, autoSyncTimer, pendingSyncs = [], syncInProgress = false, editingId = null, currentPage = 1, pendingDeleteId = null, sortState = { key: 'nama', direction: 'asc' };
             const pageSize = 10;
             const formatPrice = value => `Rp ${Number(value || 0).toLocaleString('id-ID')}`;
             const formatUpdateTime = value => { if (!value) return 'Belum ada'; const date = parseUpdateTime(value); if (!date) return value; const timeParts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jakarta', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(date).reduce((result, part) => ({ ...result, [part.type]: part.value }), {}); return `${timeParts.day}/${timeParts.month}/${timeParts.year} ${timeParts.hour}:${timeParts.minute} WIB`; };
@@ -344,10 +405,46 @@
             const getCurrentUpdateTime = () => new Date().toISOString();
             const getNextId = (offset = 0) => { const highest = parts.reduce((max, part) => { const rawId = String(part.id || ''); const number = Number(rawId.match(/^SP(\d+)$/i)?.[1] || (rawId.match(/^\d+$/) ? rawId : 0)); return Math.max(max, number); }, 0); return `SP${String(highest + offset + 1).padStart(5, '0')}`; };
             const normalizePart = (part, offset = 0) => { const rawId = String(part.id || ''); const numericId = rawId.match(/^\d+$/) ? `SP${rawId.padStart(5, '0')}` : ''; const parsedDate = parseUpdateTime(part.updatedAt); return { ...part, id: rawId.match(/^SP\d{5}$/i) ? rawId.toUpperCase() : numericId || getNextId(offset), stok: Number(part.stok || 0), harga: Number(part.harga || 0), satuan: part.satuan || 'pcs', updatedAt: parsedDate ? parsedDate.toISOString() : getCurrentUpdateTime() }; };
+            const unitStorageKey = 'gunMotorUnitOptions';
+            const defaultUnitOptions = ['PCS', 'GALON', 'LITER', 'METER', 'SET'];
+            const ensureDefaultUnitOptions = () => {
+                const saved = JSON.parse(localStorage.getItem(unitStorageKey) || '[]');
+                const normalizedSaved = [...new Set(saved.map(value => String(value || '').trim()).filter(Boolean).map(value => value.toUpperCase()))]
+                    .filter(value => !defaultUnitOptions.includes(value));
+                const merged = [...defaultUnitOptions, ...normalizedSaved];
+                localStorage.setItem(unitStorageKey, JSON.stringify(merged));
+                return merged;
+            };
+            const getUnitOptions = () => ensureDefaultUnitOptions();
+            const renderUnitOptions = () => {
+                const datalist = document.getElementById('part-unit-options');
+                if (!datalist) return;
+                datalist.innerHTML = '';
+                getUnitOptions().forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value;
+                    datalist.appendChild(option);
+                });
+            };
+            const saveUnitOption = value => {
+                const normalized = String(value || '').trim();
+                if (!normalized) return normalized;
+                const formatted = normalized.toUpperCase();
+                const options = ensureDefaultUnitOptions();
+                const exists = options.some(option => option.toUpperCase() === formatted.toUpperCase());
+                if (!exists) {
+                    const nextOptions = [...options, formatted];
+                    localStorage.setItem(unitStorageKey, JSON.stringify(nextOptions));
+                    renderUnitOptions();
+                }
+                return formatted;
+            };
             parts = parts.map((part, index) => normalizePart(part, index));
             const saveParts = () => localStorage.setItem(storageKey, JSON.stringify(parts));
-            const duplicateKey = (name, unit) => `${String(name || '').trim().toLocaleLowerCase('id-ID')}|${String(unit || '').trim().toLocaleLowerCase('id-ID')}`;
-            const removeDuplicateParts = items => { const keys = new Set(); return items.filter(part => { const key = duplicateKey(part.nama, part.satuan); if (!part.nama || !part.satuan || keys.has(key)) return false; keys.add(key); return true; }); };
+            const canonicalText = value => String(value || '').trim().toLocaleLowerCase('id-ID');
+            const exactDuplicateKey = part => `${canonicalText(part.nama)}|${Number(part.stok || 0)}|${canonicalText(part.satuan)}|${Number(part.harga || 0)}`;
+            const nameUnitKey = part => `${canonicalText(part.nama)}|${canonicalText(part.satuan)}`;
+            const removeDuplicateParts = items => { const keys = new Set(); return items.filter(part => { const key = exactDuplicateKey(part); if (!part.nama || !part.satuan || keys.has(key)) return false; keys.add(key); return true; }); };
             parts = removeDuplicateParts(parts);
             saveParts();
             const setSyncStatus = message => { document.getElementById('sheet-sync-status').textContent = message; };
@@ -408,9 +505,61 @@
             const openDeleteModal = id => { pendingDeleteId = id; const modal = document.getElementById('delete-modal'); modal.classList.remove('hidden'); modal.classList.add('flex'); document.getElementById('cancel-delete').focus(); };
             const resetForm = () => { editingId = null; document.getElementById('sparepart-form').reset(); document.getElementById('part-stock').value = 0; document.getElementById('form-submit-icon').className = 'fa-solid fa-plus mr-2'; document.getElementById('form-submit-label').textContent = 'Tambah Data'; document.getElementById('cancel-edit').classList.add('hidden'); };
             const startEdit = part => { editingId = String(part.id); document.getElementById('part-name').value = part.nama; document.getElementById('part-stock').value = Number(part.stok || 0); document.getElementById('part-unit').value = part.satuan; document.getElementById('part-price').value = part.harga; document.getElementById('form-submit-icon').className = 'fa-solid fa-floppy-disk mr-2'; document.getElementById('form-submit-label').textContent = 'Update Data'; document.getElementById('cancel-edit').classList.remove('hidden'); document.getElementById('part-name').focus(); };
+            const updateSelectedFileUI = (file) => {
+                const input = document.getElementById('spreadsheet-input');
+                const placeholder = document.getElementById('upload-placeholder');
+                const selected = document.getElementById('upload-selected');
+                const fileName = document.getElementById('selected-file-name');
+                const importButton = document.getElementById('import-data');
+                const status = document.getElementById('import-status');
+
+                if (!file) {
+                    input.value = '';
+                    placeholder.classList.remove('hidden');
+                    selected.classList.add('hidden');
+                    fileName.textContent = '';
+                    importButton.disabled = true;
+                    status.textContent = '';
+                    return;
+                }
+
+                placeholder.classList.add('hidden');
+                selected.classList.remove('hidden');
+                fileName.textContent = file.name;
+                importButton.disabled = false;
+                status.textContent = '';
+            };
+            const updateSortIcons = () => {
+                document.querySelectorAll('.sort-icon').forEach(icon => {
+                    const key = icon.dataset.sortIcon;
+                    icon.classList.remove('fa-sort-up', 'fa-sort-down', 'fa-sort');
+                    if (sortState.key !== key) {
+                        icon.classList.add('fa-sort');
+                        return;
+                    }
+                    icon.classList.add(sortState.direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down');
+                });
+            };
+            const getSortedParts = items => {
+                const sorted = [...items];
+                sorted.sort((left, right) => {
+                    const leftValue = left[sortState.key];
+                    const rightValue = right[sortState.key];
+                    let comparison = 0;
+                    if (sortState.key === 'nama' || sortState.key === 'satuan') {
+                        comparison = String(leftValue || '').localeCompare(String(rightValue || ''), 'id');
+                    } else if (sortState.key === 'updatedAt') {
+                        comparison = (parseUpdateTime(leftValue)?.getTime() || 0) - (parseUpdateTime(rightValue)?.getTime() || 0);
+                    } else {
+                        comparison = Number(leftValue || 0) - Number(rightValue || 0);
+                    }
+                    return sortState.direction === 'asc' ? comparison : -comparison;
+                });
+                return sorted;
+            };
             const renderParts = () => {
                 const query = document.getElementById('part-search').value.toLowerCase();
-                const visible = parts.filter(part => `${part.nama} ${part.satuan}`.toLowerCase().includes(query));
+                const visible = getSortedParts(parts.filter(part => `${part.nama} ${part.satuan}`.toLowerCase().includes(query)));
                 const totalPages = Math.max(1, Math.ceil(visible.length / pageSize));
                 currentPage = Math.min(currentPage, totalPages);
                 const pageParts = visible.slice((currentPage - 1) * pageSize, currentPage * pageSize);
@@ -418,9 +567,30 @@
                 const latestPart = parts.reduce((latest, part) => (parseUpdateTime(part.updatedAt)?.getTime() || 0) > (parseUpdateTime(latest?.updatedAt)?.getTime() || 0) ? part : latest, null);
                 document.getElementById('empty-state').classList.toggle('hidden', visible.length > 0); document.getElementById('kpi-total').textContent = parts.length; document.getElementById('kpi-updated').textContent = formatUpdateTime(latestPart?.updatedAt);
                 document.getElementById('pagination').classList.toggle('hidden', visible.length <= pageSize); document.getElementById('pagination-info').textContent = `Halaman ${currentPage} dari ${totalPages} (${visible.length} data)`; document.getElementById('previous-page').disabled = currentPage === 1; document.getElementById('next-page').disabled = currentPage === totalPages;
+                updateSortIcons();
             };
-            const addPart = (data, sync = true) => { const normalized = normalizePart(data); if (parts.some(part => duplicateKey(part.nama, part.satuan) === duplicateKey(normalized.nama, normalized.satuan))) return false; parts.push(normalized); saveParts(); renderParts(); if (sync) scheduleSync('create', normalized); return true; };
-            const showDashboard = () => { loginPanel.classList.add('hidden'); dashboard.classList.remove('hidden'); renderParts(); loadFromSheet(); setInterval(() => { runAutoSync(); if (!pendingSyncs.length && !syncInProgress) loadFromSheet(); }, syncInterval); };
+            const addPart = (data, sync = true) => {
+                const normalized = normalizePart(data);
+                const exactDuplicate = parts.find(part => exactDuplicateKey(part) === exactDuplicateKey(normalized));
+                if (exactDuplicate) return false;
+
+                const sameNameAndUnit = parts.find(part => nameUnitKey(part) === nameUnitKey(normalized));
+                if (sameNameAndUnit) {
+                    Object.assign(sameNameAndUnit, normalized, { updatedAt: getCurrentUpdateTime() });
+                    saveParts();
+                    renderParts();
+                    if (sync) scheduleSync('update', sameNameAndUnit);
+                    return true;
+                }
+
+                parts.push(normalized);
+                saveParts();
+                renderParts();
+                if (sync) scheduleSync('create', normalized);
+                return true;
+            };
+            ensureDefaultUnitOptions();
+            const showDashboard = () => { loginPanel.classList.add('hidden'); dashboard.classList.remove('hidden'); renderUnitOptions(); renderParts(); loadFromSheet(); setInterval(() => { runAutoSync(); if (!pendingSyncs.length && !syncInProgress) loadFromSheet(); }, syncInterval); };
             if (sessionStorage.getItem(sessionKey) === 'active') showDashboard();
             const passwordInput = document.getElementById('admin-password');
             const passwordToggle = document.getElementById('admin-password-toggle');
@@ -435,19 +605,63 @@
             });
             document.getElementById('admin-login-form').addEventListener('submit', event => { event.preventDefault(); if (document.getElementById('admin-username').value === 'admin' && document.getElementById('admin-password').value === 'gunmotor2026') { sessionStorage.setItem(sessionKey, 'active'); document.getElementById('admin-login-message').classList.add('hidden'); showDashboard(); } else { const message = document.getElementById('admin-login-message'); message.textContent = 'Username atau password tidak sesuai.'; message.className = 'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-600'; } });
             document.getElementById('admin-logout').addEventListener('click', () => { sessionStorage.removeItem(sessionKey); dashboard.classList.add('hidden'); loginPanel.classList.remove('hidden'); });
-            document.getElementById('sparepart-form').addEventListener('submit', event => { event.preventDefault(); const data = { nama: document.getElementById('part-name').value.trim(), stok: Number(document.getElementById('part-stock').value), satuan: document.getElementById('part-unit').value.trim(), harga: Number(document.getElementById('part-price').value) }; if (editingId) { const part = parts.find(item => String(item.id) === editingId); const duplicate = parts.some(item => String(item.id) !== editingId && duplicateKey(item.nama, item.satuan) === duplicateKey(data.nama, data.satuan)); if (duplicate) { toast('Nama dan satuan tersebut sudah ada. Data tidak diperbarui.'); return; } Object.assign(part, data, { updatedAt: getCurrentUpdateTime() }); saveParts(); renderParts(); scheduleSync('update', part); resetForm(); toast('Data sparepart berhasil diperbarui.'); } else if (addPart(data)) { resetForm(); toast('Data sparepart berhasil disimpan.'); } else { toast('Nama dan satuan tersebut sudah ada. Data tidak ditambahkan.'); } });
+            document.getElementById('sparepart-form').addEventListener('submit', event => { event.preventDefault(); const unitInput = document.getElementById('part-unit'); const satuan = saveUnitOption(unitInput.value); const data = { nama: document.getElementById('part-name').value.trim(), stok: Number(document.getElementById('part-stock').value), satuan, harga: Number(document.getElementById('part-price').value) }; if (editingId) { const part = parts.find(item => String(item.id) === editingId); const duplicate = parts.some(item => String(item.id) !== editingId && exactDuplicateKey(item) === exactDuplicateKey({ ...data, id: item.id })); if (duplicate) { toast('Data yang sama sudah ada. Tidak diperbarui.'); return; } const sameNameAndUnit = parts.find(item => String(item.id) !== editingId && nameUnitKey(item) === nameUnitKey(data)); if (sameNameAndUnit) { Object.assign(sameNameAndUnit, data, { updatedAt: getCurrentUpdateTime() }); saveParts(); renderParts(); scheduleSync('update', sameNameAndUnit); resetForm(); toast('Data dengan nama dan satuan yang sama berhasil di-overwrite.'); return; } Object.assign(part, data, { updatedAt: getCurrentUpdateTime() }); saveParts(); renderParts(); scheduleSync('update', part); resetForm(); toast('Data sparepart berhasil diperbarui.'); } else if (addPart(data)) { resetForm(); toast('Data sparepart berhasil disimpan.'); } else { toast('Data duplikat ditolak. Jika nama dan satuan sama, sistem akan overwrite dengan data terbaru.'); } });
             document.getElementById('cancel-edit').addEventListener('click', resetForm);
             document.getElementById('parts-table').addEventListener('click', event => { const editButton = event.target.closest('[data-edit]'); if (editButton) { const part = parts.find(item => String(item.id) === editButton.dataset.edit); if (part) startEdit(part); return; } const deleteButton = event.target.closest('[data-delete]'); if (deleteButton) openDeleteModal(deleteButton.dataset.delete); });
             document.getElementById('cancel-delete').addEventListener('click', closeDeleteModal);
             document.getElementById('delete-modal').addEventListener('click', event => { if (event.target.id === 'delete-modal') closeDeleteModal(); });
             document.getElementById('confirm-delete').addEventListener('click', () => { if (!pendingDeleteId) return; const deletedId = pendingDeleteId; parts = parts.filter(part => String(part.id) !== deletedId); saveParts(); renderParts(); scheduleSync('delete', { id: deletedId }); closeDeleteModal(); toast('Data berhasil dihapus.'); });
             document.addEventListener('keydown', event => { if (event.key === 'Escape' && pendingDeleteId) closeDeleteModal(); });
+            document.querySelectorAll('[data-sort]').forEach(header => {
+                header.addEventListener('click', () => {
+                    const key = header.dataset.sort;
+                    if (sortState.key === key) {
+                        sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortState.key = key;
+                        sortState.direction = key === 'nama' || key === 'satuan' ? 'asc' : 'desc';
+                    }
+                    currentPage = 1;
+                    renderParts();
+                });
+            });
             document.getElementById('part-search').addEventListener('input', () => { currentPage = 1; renderParts(); });
             document.getElementById('previous-page').addEventListener('click', () => { if (currentPage > 1) { currentPage -= 1; renderParts(); } });
             document.getElementById('next-page').addEventListener('click', () => { currentPage += 1; renderParts(); });
-            document.getElementById('spreadsheet-input').addEventListener('change', event => { const hasFile = Boolean(event.target.files[0]); document.getElementById('import-data').disabled = !hasFile; document.getElementById('import-status').textContent = hasFile ? event.target.files[0].name : ''; });
-            document.getElementById('import-data').addEventListener('click', () => { const input = document.getElementById('spreadsheet-input'), file = input.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = loadEvent => { try { const workbook = XLSX.read(loadEvent.target.result, { type: 'array' }), sheet = workbook.Sheets[workbook.SheetNames[0]], rows = XLSX.utils.sheet_to_json(sheet, { defval: '' }); const imported = rows.map(row => ({ id: row.id || undefined, nama: row.nama, stok: Number(row.stok || 0), satuan: row.satuan, harga: Number(row.harga || 0), updatedAt: row.updatedAt || undefined })).filter(row => row.nama && row.satuan && row.harga > 0); const addedCount = imported.reduce((count, row) => count + (addPart(row, false) ? 1 : 0), 0); const skippedCount = imported.length - addedCount; if (addedCount) scheduleSync('sync', null); input.value = ''; document.getElementById('import-data').disabled = true; document.getElementById('import-status').textContent = ''; toast(`${addedCount} data berhasil diimport${skippedCount ? `, ${skippedCount} duplikat nama dan satuan dilewati.` : '.'}`); } catch (error) { document.getElementById('import-status').textContent = 'File tidak dapat dibaca.'; toast('Data gagal diimport.'); } }; reader.readAsArrayBuffer(file); });
-            document.getElementById('download-template').addEventListener('click', () => { const sheet = XLSX.utils.json_to_sheet([{ id: '', nama: 'Kampas Rem Depan', stok: 4, satuan: 'pcs', harga: 350000, updatedAt: '' }], { header: ['id', 'nama', 'stok', 'satuan', 'harga', 'updatedAt'] }), workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, sheet, 'Sparepart'); XLSX.writeFile(workbook, 'template-harga-sparepart.xlsx'); });
+            const uploadZone = document.getElementById('upload-zone');
+            const spreadsheetInput = document.getElementById('spreadsheet-input');
+            const clearFileButton = document.getElementById('clear-file');
+
+            uploadZone.addEventListener('click', event => {
+                if (event.target.closest('#clear-file')) return;
+                spreadsheetInput.click();
+            });
+            uploadZone.addEventListener('dragover', event => {
+                event.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+            uploadZone.addEventListener('dragleave', () => { uploadZone.classList.remove('dragover'); });
+            uploadZone.addEventListener('drop', event => {
+                event.preventDefault();
+                uploadZone.classList.remove('dragover');
+                const file = event.dataTransfer.files[0];
+                if (file && file.name.toLowerCase().endsWith('.xlsx')) {
+                    spreadsheetInput.files = event.dataTransfer.files;
+                    updateSelectedFileUI(file);
+                } else {
+                    toast('File harus berformat .xlsx');
+                }
+            });
+            spreadsheetInput.addEventListener('change', event => {
+                const file = event.target.files[0];
+                updateSelectedFileUI(file);
+            });
+            clearFileButton.addEventListener('click', event => {
+                event.stopPropagation();
+                updateSelectedFileUI(null);
+            });
+            document.getElementById('import-data').addEventListener('click', () => { const input = document.getElementById('spreadsheet-input'), file = input.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = loadEvent => { try { const workbook = XLSX.read(loadEvent.target.result, { type: 'array' }), sheet = workbook.Sheets[workbook.SheetNames[0]], rows = XLSX.utils.sheet_to_json(sheet, { defval: '' }); const imported = rows.map(row => ({ id: row.id || undefined, nama: row.nama, stok: Number(row.stok || 0), satuan: row.satuan, harga: Number(row.harga || 0), updatedAt: row.updatedAt || undefined })).filter(row => row.nama && row.satuan && row.harga > 0); const addedCount = imported.reduce((count, row) => count + (addPart(row, false) ? 1 : 0), 0); const skippedCount = imported.length - addedCount; if (addedCount) scheduleSync('sync', null); updateSelectedFileUI(null); toast(`${addedCount} data berhasil diimport${skippedCount ? `, ${skippedCount} duplikat nama dan satuan dilewati.` : '.'}`); } catch (error) { document.getElementById('import-status').textContent = 'File tidak dapat dibaca.'; toast('Data gagal diimport.'); } }; reader.readAsArrayBuffer(file); });
+            document.getElementById('download-template').addEventListener('click', () => { const sheet = XLSX.utils.json_to_sheet([{ id: '', nama: 'Kampas Rem Depan', stok: 4, satuan: 'PCS', harga: 350000, updatedAt: '' }], { header: ['id', 'nama', 'stok', 'satuan', 'harga', 'updatedAt'] }), workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, sheet, 'Sparepart'); XLSX.writeFile(workbook, 'template-harga-sparepart.xlsx'); });
             document.getElementById('sync-sheet').addEventListener('click', () => syncToSheet(true));
         })();
     </script>
