@@ -27,6 +27,14 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        .admin-kpi {
+            background: linear-gradient(135deg, #172554, #1e3a8a);
+        }
+
+        .admin-kpi-green {
+            background: linear-gradient(135deg, #064e3b, #047857);
+        }
+
         .catalog-table {
             border-collapse: separate;
             border-spacing: 0;
@@ -75,38 +83,52 @@
 </head>
 
 <body class="min-h-screen bg-slate-100 text-slate-800">
-    <header class="bg-brand-dark text-white">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
-            <a href="index" class="flex items-center gap-3">
-                <img src="images/Gun_Motor_final.png" alt="Logo Gun Motor" class="h-11 w-auto rounded-md object-contain">
-                <span class="text-lg font-bold tracking-tight sm:text-xl">GUN <span class="text-blue-400">MOTOR</span></span>
-            </a>
-            <div class="text-right">
-                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Katalog Harga</p>
-                <h1 class="text-lg font-bold sm:text-xl">Daftar Harga Sparepart</h1>
-            </div>
-        </div>
-    </header>
-
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-        <section class="mb-6">
-            <p class="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-brand-navy">Daftar Harga</p>
-            <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-                <div>
-                    <h2 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">Sparepart Gun Motor</h2>
-                    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">Cari nama sparepart dan cek harga serta stok terbaru yang tersedia.</p>
+        <section class="mb-8 rounded-2xl bg-brand-dark p-5 text-white shadow-lg sm:p-6">
+            <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+                <div class="flex items-center gap-3">
+                    <img src="images/Gun_Motor_final.png" alt="Logo Gun Motor" class="h-12 w-auto rounded-md object-contain">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Katalog Harga</p>
+                        <h1 class="text-xl font-bold sm:text-2xl">Sparepart</h1>
+                    </div>
                 </div>
-                <p id="data-status" class="text-sm text-slate-500">Memuat data...</p>
+                <a href="index" class="inline-flex items-center justify-center gap-2 self-start rounded-lg border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 sm:self-auto">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Website Publik
+                </a>
+            </div>
+            <div class="mt-6 border-t border-white/10 pt-5">
+                <p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-300">Daftar Harga</p>
+                <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl">Sparepart Gun Motor</h2>
+                <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-300">Cari nama sparepart dan cek harga serta stok terbaru yang tersedia.</p>
+            </div>
+        </section>
+
+        <section class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="admin-kpi rounded-xl p-5 text-white">
+                <p class="text-xs uppercase tracking-wider text-white/70">Total Data</p>
+                <p id="kpi-total" class="mt-2 text-3xl font-extrabold">0</p>
+            </div>
+            <div class="admin-kpi admin-kpi-green rounded-xl p-5 text-white">
+                <p class="text-xs uppercase tracking-wider text-white/70">Update Terakhir</p>
+                <p id="data-status" class="mt-2 text-lg font-bold">Belum ada</p>
             </div>
         </section>
 
         <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div class="flex flex-col gap-3 border-b border-slate-100 bg-white p-4 sm:p-5 md:flex-row md:items-center md:justify-between">
+            <div class="flex flex-col gap-4 border-b border-slate-100 bg-white p-5 sm:p-6 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">Data Sparepart</h3>
+                    <p class="mt-1 text-sm text-slate-500">Daftar harga dan stok yang tersedia.</p>
+                </div>
                 <label class="relative block w-full md:max-w-sm">
                     <span class="sr-only">Cari sparepart</span>
                     <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
                     <input id="part-search" type="search" placeholder="Cari sparepart..." class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-brand-navy focus:ring-2 focus:ring-blue-100">
                 </label>
+            </div>
+            <div class="flex flex-col gap-3 border-b border-slate-100 bg-slate-50/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
                 <div class="flex items-center justify-between gap-3 text-sm text-slate-500 sm:justify-end">
                     <label for="rows-per-page" class="font-medium">Tampilkan</label>
                     <select id="rows-per-page" class="rounded-lg border border-slate-200 bg-white px-2 py-2 outline-none transition focus:border-brand-navy focus:ring-2 focus:ring-blue-100">
@@ -117,6 +139,7 @@
                     </select>
                     <span>baris</span>
                 </div>
+                <p class="text-xs text-slate-400">Klik header tabel untuk mengurutkan data.</p>
             </div>
 
             <div class="table-scroll max-h-[620px] overflow-auto">
@@ -209,7 +232,16 @@
                     return true;
                 });
             };
-            const updateStatus = message => { document.getElementById('data-status').textContent = message; };
+            const updateLatestUpdate = () => {
+                const latestPart = parts.reduce((latest, part) => {
+                    const currentTime = parseDate(part.updatedAt)?.getTime() || 0;
+                    const latestTime = parseDate(latest?.updatedAt)?.getTime() || 0;
+                    return currentTime > latestTime ? part : latest;
+                }, null);
+                document.getElementById('data-status').textContent = formatDate(latestPart?.updatedAt) === '-'
+                    ? 'Belum ada'
+                    : formatDate(latestPart.updatedAt);
+            };
             const updateSortIcons = () => {
                 document.querySelectorAll('[data-sort-icon]').forEach(icon => {
                     icon.className = `fa-solid ${sortState.key === icon.dataset.sortIcon ? (sortState.direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'} ml-1 text-slate-400`;
@@ -234,6 +266,8 @@
                 const start = (currentPage - 1) * pageSize;
                 const pageParts = visible.slice(start, start + pageSize);
                 document.getElementById('parts-table').innerHTML = pageParts.map((part, index) => `<tr><td class="px-4 py-4 text-center text-slate-400 sm:px-6">${start + index + 1}</td><td class="px-4 py-4 font-semibold text-slate-800 sm:px-6">${part.nama}</td><td class="px-4 py-4 text-right text-slate-600 sm:px-6">${part.stok}</td><td class="px-4 py-4 text-slate-500 sm:px-6">${part.satuan}</td><td class="px-4 py-4 text-right font-bold text-slate-800 sm:px-6">${formatPrice(part.harga)}</td><td class="px-4 py-4 text-slate-500 sm:px-6">${formatDate(part.updatedAt)}</td></tr>`).join('');
+                document.getElementById('kpi-total').textContent = parts.length.toLocaleString('id-ID');
+                updateLatestUpdate();
                 document.getElementById('empty-state').classList.toggle('hidden', visible.length > 0);
                 document.getElementById('pagination-info').textContent = `Halaman ${currentPage} dari ${totalPages} (${visible.length} data)`;
                 document.getElementById('previous-page').disabled = currentPage === 1;
@@ -244,17 +278,15 @@
                 const cached = JSON.parse(localStorage.getItem(storageKey) || '[]');
                 parts = uniqueParts(cached);
                 render();
-                updateStatus(parts.length ? `${parts.length} data tersimpan` : 'Memuat data...');
                 try {
                     const response = await fetch(`${endpoint}?t=${Date.now()}`);
                     const result = await response.json();
                     if (!result.ok) throw new Error(result.message || 'Gagal memuat data');
                     parts = uniqueParts(result.data || []);
                     localStorage.setItem(storageKey, JSON.stringify(parts));
-                    updateStatus(`${parts.length} data terbaru`);
                     render();
                 } catch (error) {
-                    updateStatus(parts.length ? `${parts.length} data dari cache lokal` : 'Data belum dapat dimuat');
+                    render();
                 }
             };
 

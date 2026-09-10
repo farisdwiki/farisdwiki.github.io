@@ -231,11 +231,12 @@
                         class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm mb-8"><i
                             class="fa-solid fa-arrow-left"></i> Kembali ke Website</a>
                     <div class="flex items-center gap-3">
-                        <div class="w-11 h-11 rounded-xl bg-brand-navy flex items-center justify-center text-xl"><i
-                                class="fa-solid fa-shield-halved"></i></div>
+                        <img src="images/Gun_Motor_final.png" alt="Logo Gun Motor"
+                        class="h-12 w-auto object-contain rounded-md">
                         <div>
-                            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Gun Motor</p>
-                            <h1 class="text-2xl font-bold">Admin Portal</h1>
+                            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Portal Admin</p>
+                            <span class="font-bold text-2xl tracking-tight">GUN <span
+                            class="text-brand-navy">MOTOR</span></span>
                         </div>
                     </div>
                     <p class="text-slate-300 text-sm leading-relaxed mt-8">Kelola katalog harga sparepart secara
@@ -274,20 +275,31 @@
             </div>
 
             <div id="admin-dashboard" class="hidden">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-                    <div>
-                        <a href="index" class="text-brand-navy font-semibold text-sm"><i
-                                class="fa-solid fa-arrow-left mr-1"></i> Website Publik</a>
-                        <p class="text-brand-navy font-bold uppercase tracking-widest text-xs mt-5 mb-2">Pusat Kendali
-                            Harga</p>
-                        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Dashboard Sparepart</h2>
-                        <p class="text-slate-500 mt-2">Kelola data sparepart Gun Motor.</p>
+                <div class="mb-8 rounded-2xl bg-brand-dark p-5 text-white shadow-lg sm:p-6">
+                    <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+                        <div class="flex items-center gap-3">
+                            <img src="images/Gun_Motor_final.png" alt="Logo Gun Motor"
+                                class="h-12 w-auto rounded-md object-contain">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Portal Admin</p>
+                                <h1 class="text-xl font-bold sm:text-2xl">Gun Motor</h1>
+                            </div>
+                        </div>
+                        <button id="admin-logout"
+                            class="inline-flex items-center justify-center gap-2 self-start rounded-lg border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 sm:self-auto">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout
+                        </button>
                     </div>
-                    <button id="admin-logout"
-                        class="self-start md:self-auto border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 rounded-lg px-4 py-2 font-semibold">
-                        <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
-                        Keluar
-                    </button>
+                    <div class="mt-6 border-t border-white/10 pt-5">
+                        <a href="index" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-300 transition hover:text-white">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Website Publik
+                        </a>
+                        <p class="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-blue-300">Pusat Kendali Harga</p>
+                        <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl">Dashboard Sparepart</h2>
+                        <p class="mt-2 text-sm text-slate-300">Kelola data sparepart Gun Motor.</p>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <div class="admin-kpi rounded-xl p-5 text-white">
